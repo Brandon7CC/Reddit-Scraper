@@ -1,3 +1,14 @@
+/*
+ * Brandon Dalton
+ * 09/16/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * Children.java
+ */
+
+
 public class Children {
 	private String kind = "";
 	private Data data = null;

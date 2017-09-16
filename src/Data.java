@@ -1,3 +1,13 @@
+/*
+ * Brandon Dalton
+ * 09/16/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * Data.java
+ */
+
 import java.util.ArrayList;
 
 public class Data {

@@ -1,3 +1,14 @@
+/*
+ * Brandon Dalton
+ * 09/16/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * Main.java
+ */
+
+
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
@@ -8,6 +19,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class Main {
 	public static void main(String[] args) {
+		//Add the REST API link for the sub-reddit here
 		String url = "https://www.reddit.com/r/changemyview/.json";
 		
 		try {

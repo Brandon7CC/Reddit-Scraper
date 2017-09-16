@@ -1,3 +1,13 @@
+/*
+ * Brandon Dalton
+ * 09/16/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * WriteOut.java
+ */
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
