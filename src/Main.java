@@ -3,10 +3,22 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 public class Main {
 	public static void main(String[] args) {
-		String url = "https://www.reddit.com/user/ImnotfamousAMA/.json";
-		System.out.println(getJson(url));
+		String url = "https://www.reddit.com/r/changemyview/.json";
+		
+		try {
+			Gson gson = new Gson();
+			String json = getJson(url);
+			System.out.println(json);
+			Reddit reddit = gson.fromJson(json, Reddit.class);
+			System.out.println(reddit.getData().getChildren().get(0).getData().getAuthor());
+		} catch (JsonSyntaxException e) {
+			System.out.println("Json format error! " + e.getMessage());
+		}
 		
 		
 	}
