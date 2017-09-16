@@ -23,6 +23,8 @@ public class Main {
 		
 	}
 	
+	//String -> String
+	//Connects to the reddit page then returns the json file
 	private static String getJson(String url) {
 		Document doc;
 		try {
