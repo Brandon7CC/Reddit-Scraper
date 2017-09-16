@@ -15,7 +15,7 @@ public class Main {
 			String json = getJson(url);
 			System.out.println(json);
 			Reddit reddit = gson.fromJson(json, Reddit.class);
-			System.out.println(reddit.getData().getChildren().get(0).getData().getAuthor());
+			WriteOut.writeData(reddit);
 		} catch (JsonSyntaxException e) {
 			System.out.println("Json format error! " + e.getMessage());
 		}
