@@ -8,6 +8,7 @@ public class Main {
 		String url = "https://www.reddit.com/user/ImnotfamousAMA/.json";
 		System.out.println(getJson(url));
 		
+		
 	}
 	
 	private static String getJson(String url) {

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Data {
 	private String modhash = "", subreddit = "", likes = "", view_count = "", title = "", score = "", author = "",
-			num_comments = "", ups = "", downs = "", selftext = "";
+			num_comments = "", ups = "", downs = "", selftext = "", url = "";
 	private ArrayList<Children> children = new ArrayList<>();
 
 	public String getModhash() {
@@ -99,6 +99,14 @@ public class Data {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
