@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Children {
 	private String kind = "";
 	private Data data = null;
