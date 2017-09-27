@@ -1,5 +1,13 @@
 package Tools;
-
+/*
+ * Brandon Dalton
+ * 09/27/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * CleanPosts.java
+ */
 public class CleanPost {
 	//Cleans the posts through recursion 
 	public String cleanPost(String post) {
