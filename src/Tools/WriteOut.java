@@ -27,13 +27,13 @@ public class WriteOut {
 		String types = "Number,Author,Title,View Count,Num Comments,Ups,Downs,Score,Text";
 		ArrayList<Children> children = reddit.getData().getChildren();
 		ArrayList<Data> allData = new ArrayList<>();
-		
-		//For each child from Reddit put all their data into an ArrayList
+
+		// For each child from Reddit put all their data into an ArrayList
 		for (Children c : children) {
 			allData.add(c.getData());
 		}
-		
-		//Write the data from the allData ArrayList to a CSV
+
+		// Write the data from the allData ArrayList to a CSV
 		writeToCSV(allData, types);
 		System.out.println("Write Complete see reddit.csv");
 	}
@@ -41,29 +41,62 @@ public class WriteOut {
 	// String String -> void
 	// Writes the data found in the data ArrayList to a CSV file
 	private static void writeToCSV(ArrayList<Data> data, String header) {
+		CleanPost cleaner = new CleanPost();
 		try {
 			FileWriter fw = new FileWriter(new File("reddit.csv"));
 			PrintWriter pw = new PrintWriter(fw);
-			
-			//Printing the header of the CSV
+
+			// Printing the header of the CSV
 			pw.println(header);
 			int counter = 0;
-			
-			//Traverse the Data ArrayList
+
+			// Traverse the Data ArrayList
 			for (Data d : data) {
-				//Getting all the data from the Data object
-				String author = d.getAuthor(), title = d.getTitle(), viewC = d.getView_count(),
-						numComments = d.getNum_comments(), ups = d.getUps(), downs = d.getDowns(), score = d.getScore(),
-						text = d.getSelftext();
+				// Getting all the data from the Data object
+				String author = "", title = "", viewC = "", numComments = "", ups = "", downs = "", score = "",
+						text = "";
+				if (d.getAuthor() != null) {
+					author = d.getAuthor();
+				}
+				if (d.getTitle() != null) {
+					title = d.getTitle();
+				}
+				if (d.getView_count() != null) {
+					viewC = d.getView_count();
+				}
+				if (d.getNum_comments() != null) {
+					numComments = d.getNum_comments();
+				}
+				if (d.getUps() != null) {
+					ups = d.getUps();
+				}
+				if (d.getDowns() != null) {
+					downs = d.getDowns();
+				}
+				if (d.getScore() != null) {
+					score = d.getScore();
+				}
+				if (d.getSelftext() != null) {
+					text = d.getSelftext();
+				}
 				
-				//Printing all the data to the CSV
+				author = cleaner.cleanPost(author);
+				title = cleaner.cleanPost(title);
+				numComments = cleaner.cleanPost(d.getNum_comments());
+				ups = cleaner.cleanPost(d.getUps());
+				downs = cleaner.cleanPost(d.getDowns());
+				text = cleaner.cleanPost(d.getSelftext());
+
+				// Printing all the data to the CSV
 				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + viewC + "\",\"" + numComments
 						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
-				
-				//Console output – Does not seem to be acting up. The issue is in the above line. 
-				//System.out.println(counter + "     " + author + "     " + title + "\n\n");
-				System.out.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + viewC + "\",\"" + numComments
-						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
+
+				// Console output – Does not seem to be acting up. The issue is in the above
+				// line.
+				// System.out.println(counter + " " + author + " " + title + "\n\n");
+				System.out.println("\"" + counter + "\",\"" + author + "\",\"" + title +
+				 "\",\"" + viewC + "\",\"" + numComments
+				 + "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 				counter++;
 			}
 			pw.close();
@@ -73,4 +106,5 @@ public class WriteOut {
 			System.out.println("Error writing the CSV file: " + e.getMessage());
 		}
 	}
+
 }
