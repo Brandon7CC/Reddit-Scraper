@@ -91,12 +91,6 @@ public class WriteOut {
 				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + viewC + "\",\"" + numComments
 						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 
-				// Console output – Does not seem to be acting up. The issue is in the above
-				// line.
-				// System.out.println(counter + " " + author + " " + title + "\n\n");
-				System.out.println("\"" + counter + "\",\"" + author + "\",\"" + title +
-				 "\",\"" + viewC + "\",\"" + numComments
-				 + "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 				counter++;
 			}
 			pw.close();
