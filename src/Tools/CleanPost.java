@@ -8,6 +8,7 @@ package Tools;
  * 
  * CleanPosts.java
  */
+
 public class CleanPost {
 	//Cleans the posts through recursion 
 	public String cleanPost(String post) {
