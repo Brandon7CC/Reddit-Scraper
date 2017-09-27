@@ -1,3 +1,4 @@
+package Tools;
 /*
  * Brandon Dalton
  * 09/16/2017
@@ -13,6 +14,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import Reddit.Children;
+import Reddit.Data;
+import Reddit.Reddit;
 
 public class WriteOut {
 
@@ -56,7 +61,7 @@ public class WriteOut {
 						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 				
 				//Console output – Does not seem to be acting up. The issue is in the above line. 
-				System.out.println(counter + "     " + author + "     " + title + "\n\n");
+				//System.out.println(counter + "     " + author + "     " + title + "\n\n");
 				System.out.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + viewC + "\",\"" + numComments
 						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 				counter++;

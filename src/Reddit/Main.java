@@ -1,3 +1,4 @@
+package Reddit;
 /*
  * Brandon Dalton
  * 09/16/2017
@@ -16,6 +17,8 @@ import org.jsoup.nodes.Document;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
+import Tools.WriteOut;
 
 public class Main {
 	public static void main(String[] args) {

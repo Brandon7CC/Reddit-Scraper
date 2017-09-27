@@ -1,3 +1,4 @@
+package Reddit;
 /*
  * Brandon Dalton
  * 09/16/2017
@@ -5,13 +6,13 @@
  * Viterbi School of Engineering
  * Mass-IG
  * 
- * Reddit.java
+ * Children.java
  */
 
-public class Reddit {
+
+public class Children {
 	private String kind = "";
 	private Data data = null;
-	
 	public String getKind() {
 		return kind;
 	}
