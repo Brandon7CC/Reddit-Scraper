@@ -1,6 +1,7 @@
 package Tools;
 
 public class CleanPost {
+	//Cleans the posts through recursion 
 	public String cleanPost(String post) {
 		if (post.contains("\\")) {
 			System.out.println("Contains: \\");
