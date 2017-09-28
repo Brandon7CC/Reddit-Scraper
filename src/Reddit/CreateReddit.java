@@ -13,6 +13,7 @@ package Reddit;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+import Tools.CleanPost;
 import Tools.DatabaseFNS;
 import Tools.WriteOut;
 
@@ -20,6 +21,7 @@ import Tools.WriteOut;
 public class CreateReddit extends TimerTask{
 	private Reddit reddit = null;
 	private DatabaseFNS database = new DatabaseFNS();
+	private CleanPost cleaner = new CleanPost();
 
 	public CreateReddit(Reddit reddit) {
 		this.reddit = reddit;
@@ -30,10 +32,13 @@ public class CreateReddit extends TimerTask{
 		
 		ArrayList<Children> children = reddit.getData().getChildren();
 		for(Children c : children) {
-			if(!database.existsInDB(c.getData())) {
-				database.addToDB(c.getData());
+			Data d = c.getData();
+			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
+			
+			if(!database.existsInDB(d)) {
+				database.addToDB(d);
 			}
 		}
-		WriteOut.writeData(reddit);
+		//WriteOut.writeData(reddit);
 	}
 }
