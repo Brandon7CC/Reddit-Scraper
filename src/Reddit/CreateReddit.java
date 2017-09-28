@@ -1,8 +1,11 @@
 package Reddit;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 /*
- * Brandon Dalton
+ * Brandon Dalton, Christopher Turner
  * 09/27/2017
  * University of Southern California
  * Viterbi School of Engineering
@@ -21,12 +24,11 @@ import org.jsoup.nodes.Document;
 import com.google.gson.Gson;
 
 import Tools.CleanPost;
-import Tools.DatabaseFNS;
-import Tools.WriteOut;
+import Tools.Database;
 
 public class CreateReddit extends TimerTask {
 	private Reddit reddit = null;
-	private DatabaseFNS database = new DatabaseFNS();
+	private Database db = null;
 	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
 	// Add the REST API link for the sub-reddit here
@@ -37,16 +39,26 @@ public class CreateReddit extends TimerTask {
 		String json = getJson(this.url);
 		this.reddit = gson.fromJson(json, Reddit.class);
 		ArrayList<Children> children = reddit.getData().getChildren();
-		
-		for (Children c : children) {
-			Data d = c.getData();
-			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
-			
-			if (!database.existsInDB(d)) {
-				database.addToDB(d);
+		db = new Database("christopher", "turner");
+		try (Statement statement = db.getConn().createStatement()) {
+			ResultSet resultSet = statement.executeQuery("SHOW TABLES");
+			while (resultSet.next()) {
+				System.out.println(resultSet.getString(1));
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//WriteOut.writeData(this.reddit);
+
+		// for (Children c : children) {
+		// Data d = c.getData();
+		// d.setSelftext(cleaner.cleanPost(d.getSelftext()));
+		//
+		// if (!db.existsInDB(d)) {
+		// db.add(d);
+		// }
+		// }
+		// WriteOut.writeData(this.reddit);
 	}
 
 	// String -> String
