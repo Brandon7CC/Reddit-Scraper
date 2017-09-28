@@ -9,10 +9,10 @@ package Reddit;
  * Children.java
  */
 
-
 public class Children {
 	private String kind = "";
 	private Data data = null;
+	
 	public String getKind() {
 		return kind;
 	}
