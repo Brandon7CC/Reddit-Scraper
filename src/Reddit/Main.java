@@ -9,51 +9,12 @@ package Reddit;
  * Main.java
  */
 
-
-import java.io.IOException;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import Tools.WriteOut;
+import java.util.Timer;
 
 public class Main {
 	public static void main(String[] args) {
-		//Add the REST API link for the sub-reddit here
-		String url = "https://www.reddit.com/r/changemyview/.json";
-		
-		try {
-			Gson gson = new Gson();
-			
-			
-			String json = getJson(url);
-			Reddit reddit = gson.fromJson(json, Reddit.class);
-			
-			
-			
-		} catch (JsonSyntaxException e) {
-			System.out.println("Json format error! " + e.getMessage());
-		}
-		
-		
+		Timer timer = new Timer();
+		timer.schedule(new CreateReddit(), 0, 10000);
 	}
-	
-	//String -> String
-	//Connects to the reddit page then returns the json file
-	private static String getJson(String url) {
-		Document doc;
-		try {
-			
-			doc = Jsoup.connect(url).userAgent("chrome").ignoreContentType(true).timeout(0).get();
-			String json = doc.getElementsByTag("body").toString();
-			
-			return json.substring(8, json.length()-7);
-		} catch (IOException e) {
-			System.out.println("JSON fetch error: " + e.getMessage());
-		}
-		return null;
-	}
+
 }
