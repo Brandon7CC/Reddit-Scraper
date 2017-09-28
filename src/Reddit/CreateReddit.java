@@ -41,7 +41,7 @@ public class CreateReddit extends TimerTask {
 		for (Children c : children) {
 			Data d = c.getData();
 			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
-
+			
 			if (!database.existsInDB(d)) {
 				database.addToDB(d);
 			}
