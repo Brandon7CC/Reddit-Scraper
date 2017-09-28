@@ -1,6 +1,6 @@
 package Reddit;
 /*
- * Brandon Dalton
+ * Brandon Dalton, Christopher Turner
  * 09/16/2017
  * University of Southern California
  * Viterbi School of Engineering
