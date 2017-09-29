@@ -48,15 +48,15 @@ public class CreateReddit extends TimerTask {
 		 * System.out.println(resultSet.getString(1)); } } catch (SQLException e) { //
 		 * TODO Auto-generated catch block e.printStackTrace(); }
 		 */
-		
+
 		for (Data d : allData) {
-			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
+			d.setBody(cleaner.cleanPost(d.getBody()));
 
 			if (!db.existsInDB(d)) {
 				db.add(d);
-			} 
+			}
 		}
-		//WriteOut.writeData(this.reddit);
+		// WriteOut.writeData(this.reddit);
 
 		allData.clear();
 	}

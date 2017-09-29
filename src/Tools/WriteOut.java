@@ -53,16 +53,12 @@ public class WriteOut {
 			// Traverse the Data ArrayList
 			for (Data d : data) {
 				// Getting all the data from the Data object
-				String author = "", title = "", viewC = "", numComments = "", ups = "", downs = "", score = "",
-						text = "";
+				String author = "", title = "", numComments = "", ups = "", downs = "", score = "", text = "";
 				if (d.getAuthor() != null) {
 					author = d.getAuthor();
 				}
-				if (d.getTitle() != null) {
-					title = d.getTitle();
-				}
-				if (d.getView_count() != null) {
-					viewC = d.getView_count();
+				if (d.getLink_title() != null) {
+					title = d.getLink_title();
 				}
 				if (d.getNum_comments() != null) {
 					numComments = d.getNum_comments();
@@ -76,19 +72,19 @@ public class WriteOut {
 				if (d.getScore() != null) {
 					score = d.getScore();
 				}
-				if (d.getSelftext() != null) {
-					text = d.getSelftext();
+				if (d.getBody() != null) {
+					text = d.getBody();
 				}
-				
+
 				author = cleaner.cleanPost(author);
 				title = cleaner.cleanPost(title);
 				numComments = cleaner.cleanPost(d.getNum_comments());
 				ups = cleaner.cleanPost(d.getUps());
 				downs = cleaner.cleanPost(d.getDowns());
-				text = cleaner.cleanPost(d.getSelftext());
+				text = cleaner.cleanPost(d.getBody());
 
 				// Printing all the data to the CSV
-				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + viewC + "\",\"" + numComments
+				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + numComments
 						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 
 				counter++;
