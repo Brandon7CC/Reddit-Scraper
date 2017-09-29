@@ -10,7 +10,7 @@ package Tools;
  */
 
 public class CleanPost {
-	//Cleans the posts through recursion 
+	// Cleans the posts through recursion
 	public String cleanPost(String post) {
 		if (post.contains("\\")) {
 			int slashLocation = post.indexOf('\\');
@@ -20,6 +20,9 @@ public class CleanPost {
 			return cleanPost(post.substring(0, slashLocation) + post.substring(slashLocation + 1, post.length()));
 		} else if (post.contains("\"")) {
 			int slashLocation = post.indexOf('"');
+			return cleanPost(post.substring(0, slashLocation) + post.substring(slashLocation + 1, post.length()));
+		} else if (post.contains("'")) {
+			int slashLocation = post.indexOf('\'');
 			return cleanPost(post.substring(0, slashLocation) + post.substring(slashLocation + 1, post.length()));
 		}
 		return post;

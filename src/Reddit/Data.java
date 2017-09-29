@@ -37,7 +37,7 @@ public class Data {
 	}
 
 	public String getCreated_utc() {
-		Date date = new Date(Integer.parseInt(created_utc) *1000L);
+		Date date = new Date(Integer.parseInt(created_utc.substring(0, created_utc.length()-2)) *1000L);
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		format.setTimeZone(TimeZone.getTimeZone("PST"));
 		

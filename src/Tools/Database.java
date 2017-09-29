@@ -12,6 +12,7 @@ package Tools;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -43,13 +44,26 @@ public class Database {
 	}
 
 	public boolean existsInDB(Data d) {
-
-		return true;
+		String query = "SELECT COUNT(*) FROM cmv.posts WHERE id='" + d.getId() + "';";
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			if (rs.getInt(1) == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return true;
+		}
 	}
 
 	public void add(Data d) {
 		String insertQuery = String.format(
-				"insert into cmv.posts(subreddit,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,link_id,id,created_utc) values('%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s')",
+				"INSERT INTO cmv.posts(subreddit,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,link_id,id,created_utc) values('%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s')",
 				d.getSubreddit(), d.getAuthor(), d.getNum_comments(), d.getUps(), d.getDowns(),
 				d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
 				d.getLink_id(), d.getId(), d.getCreated_utc());
@@ -64,8 +78,8 @@ public class Database {
 	}
 
 	private void connect() {
-		String instanceConnectionName = "mass-ig-172203:us-west1:reddit";
-		String databaseName = "cmv";
+//		String instanceConnectionName = "mass-ig-172203:us-west1:reddit";
+//		String databaseName = "cmv";
 
 		Connection connection = null;
 		try {
