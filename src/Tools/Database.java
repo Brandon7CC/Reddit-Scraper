@@ -44,10 +44,13 @@ public class Database {
 	private void connect() {
 		String instanceConnectionName = "mass-ig-172203:us-west1:reddit";
 		String databaseName = "cmv";
+		
+		String jdbcUrl = String.format(
+				"jdbc:mysql://localhost/cmv?user=java&password=miturtc");
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://35.203.162.89:3306/cmv?user=java");
+			connection = DriverManager.getConnection(jdbcUrl);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

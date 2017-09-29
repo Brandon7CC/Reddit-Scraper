@@ -42,23 +42,25 @@ public class CreateReddit extends TimerTask {
 
 		getAllData(reddit.getData().getChildren());
 
-		db = new Database("christopher", "turner");
+		db = new Database("java", "miturtc");
 
-		/*
-		 * try (Statement statement = db.getConn().createStatement()) { ResultSet
-		 * resultSet = statement.executeQuery("SHOW TABLES"); while (resultSet.next()) {
-		 * System.out.println(resultSet.getString(1)); } } catch (SQLException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-		
-		for (Data d : allData) {
-			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
-
-			if (!db.existsInDB(d)) {
-				db.add(d);
-			} 
+		try (Statement statement = db.getConn().createStatement()) {
+			ResultSet resultSet = statement.executeQuery("SHOW TABLES");
+			while (resultSet.next()) {
+				System.out.println(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		//WriteOut.writeData(this.reddit);
+
+//		for (Data d : allData) {
+//			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
+//
+//			if (!db.existsInDB(d)) {
+//				db.add(d);
+//			}
+//		}
+		// WriteOut.writeData(this.reddit);
 
 		allData.clear();
 	}
