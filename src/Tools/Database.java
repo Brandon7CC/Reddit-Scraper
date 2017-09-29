@@ -69,7 +69,7 @@ public class Database {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://35.203.162.89:3306/cmv?user=java");
+			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cmv?user=java&password=miturtc");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

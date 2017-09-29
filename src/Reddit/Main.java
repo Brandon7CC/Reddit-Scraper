@@ -1,6 +1,6 @@
 package Reddit;
 /*
- * Brandon Dalton
+ * Brandon Dalton, Christopher Turner
  * 09/16/2017
  * University of Southern California
  * Viterbi School of Engineering
@@ -18,7 +18,6 @@ public class Main {
 		Timer timer = new Timer();
 		Database db = new Database("java","miturtc");
 		timer.schedule(new CreateReddit(db), 0, 10000);
-		db.close();
 	}
 
 }
