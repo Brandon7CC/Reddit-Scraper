@@ -1,9 +1,4 @@
 package Reddit;
-
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 /*
  * Brandon Dalton, Christopher Turner
  * 09/27/2017
@@ -15,12 +10,15 @@ import java.sql.Statement;
  * 
  * This class will be used to pull new data every 10 seconds.
  */
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TimerTask;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import com.google.gson.Gson;
 
 import Tools.CleanPost;
