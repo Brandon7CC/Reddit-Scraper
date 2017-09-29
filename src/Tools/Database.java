@@ -39,12 +39,16 @@ public class Database {
 	}
 
 	public void add(Data d) {
-		String insertQuery = String.format("insert into cmv.posts(author) values(%s)", d.getAuthor());
-		
+		String insertQuery = String.format(
+				"insert into cmv.posts(subreddit,likes,score,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,controversiality,link_id,id,created_utc) values('%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s')",
+				d.getSubreddit(), d.getLikes(), d.getScore(), d.getAuthor(), d.getNum_comments(), d.getUps(),
+				d.getDowns(), d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
+				d.getControversiality(), d.getLink_id(), d.getId(), d.getCreated_utc());
+
 		Statement st;
 		try {
 			st = conn.createStatement();
-		    st.executeUpdate(insertQuery);
+			st.executeUpdate(insertQuery);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,13 +57,10 @@ public class Database {
 	private void connect() {
 		String instanceConnectionName = "mass-ig-172203:us-west1:reddit";
 		String databaseName = "cmv";
-		
-		String jdbcUrl = String.format(
-				"jdbc:mysql://localhost/cmv?user=java&password=miturtc");
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection(jdbcUrl);
+			connection = DriverManager.getConnection("jdbc:mysql://35.203.162.89:3306/cmv?user=java");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

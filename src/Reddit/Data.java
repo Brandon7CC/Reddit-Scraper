@@ -13,7 +13,32 @@ import java.util.ArrayList;
 
 public class Data {
 	private String subreddit = "", likes = "", score = "", author = "", num_comments = "", ups = "", downs = "",
-			body = "", link_author = "", link_title = "", name = "", link_url = "", controversiality = "";
+			body = "", link_author = "", link_title = "", name = "", link_url = "", controversiality = "", link_id = "",
+			id = "", created_utc = "";
+
+	public String getLink_id() {
+		return link_id;
+	}
+
+	public void setLink_id(String link_id) {
+		this.link_id = link_id;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCreated_utc() {
+		return created_utc;
+	}
+
+	public void setCreated_utc(String created_utc) {
+		this.created_utc = created_utc;
+	}
 
 	public String getBody() {
 		return body;
