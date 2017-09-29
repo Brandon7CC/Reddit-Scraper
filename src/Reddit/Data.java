@@ -9,7 +9,11 @@ package Reddit;
  * Data.java
  */
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Data {
 	private String subreddit = "", likes = "", score = "", author = "", num_comments = "", ups = "", downs = "",
@@ -33,7 +37,11 @@ public class Data {
 	}
 
 	public String getCreated_utc() {
-		return created_utc;
+		Date date = new Date(Integer.parseInt(created_utc) *1000L);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		format.setTimeZone(TimeZone.getTimeZone("PST"));
+		
+		return format.format(date);
 	}
 
 	public void setCreated_utc(String created_utc) {

@@ -32,7 +32,7 @@ public class Database {
 	public Connection getConn() {
 		return conn;
 	}
-	
+
 	public void close() {
 		try {
 			conn.close();
@@ -49,10 +49,10 @@ public class Database {
 
 	public void add(Data d) {
 		String insertQuery = String.format(
-				"insert into cmv.posts(subreddit,likes,score,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,controversiality,link_id,id,created_utc) values('%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s')",
-				d.getSubreddit(), d.getLikes(), d.getScore(), d.getAuthor(), d.getNum_comments(), d.getUps(),
-				d.getDowns(), d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
-				d.getControversiality(), d.getLink_id(), d.getId(), d.getCreated_utc());
+				"insert into cmv.posts(subreddit,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,link_id,id,created_utc) values('%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s')",
+				d.getSubreddit(), d.getAuthor(), d.getNum_comments(), d.getUps(), d.getDowns(),
+				d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
+				d.getLink_id(), d.getId(), d.getCreated_utc());
 
 		Statement st;
 		try {

@@ -10,7 +10,6 @@ package Reddit;
  */
 
 import java.util.Timer;
-
 import Tools.Database;
 
 public class Main {
