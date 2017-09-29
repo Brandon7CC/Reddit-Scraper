@@ -26,12 +26,12 @@ import Tools.Database;
 
 public class CreateReddit extends TimerTask {
 	private Reddit reddit = null;
-	private Database db = null;
+	private Database db = new Database("java", "miturtc");;
 	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
 	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
-	private String url = "https://www.reddit.com/r/changemyview/.json";
+	private String url = "https://www.reddit.com/r/changemyview/comments/.json";
 
 	@Override
 	public void run() {
@@ -40,6 +40,7 @@ public class CreateReddit extends TimerTask {
 
 		getAllData(reddit.getData().getChildren());
 
+<<<<<<< HEAD
 		db = new Database("java", "miturtc");
 
 		try (Statement statement = db.getConn().createStatement()) {
@@ -58,6 +59,22 @@ public class CreateReddit extends TimerTask {
 //				db.add(d);
 //			}
 //		}
+=======
+		/*
+		 * try (Statement statement = db.getConn().createStatement()) { ResultSet
+		 * resultSet = statement.executeQuery("SHOW TABLES"); while (resultSet.next()) {
+		 * System.out.println(resultSet.getString(1)); } } catch (SQLException e) { //
+		 * TODO Auto-generated catch block e.printStackTrace(); }
+		 */
+
+		for (Data d : allData) {
+			d.setBody(cleaner.cleanPost(d.getBody()));
+
+			if (!db.existsInDB(d)) {
+				db.add(d);
+			}
+		}
+>>>>>>> 1b8c850672bc1e1a58bc693287b46d71ba7baadc
 		// WriteOut.writeData(this.reddit);
 
 		allData.clear();

@@ -12,17 +12,50 @@ package Reddit;
 import java.util.ArrayList;
 
 public class Data {
-	private String modhash = "", subreddit = "", likes = "", view_count = "", title = "", score = "", author = "",
-			num_comments = "", ups = "", downs = "", selftext = "", url = "";
+	private String subreddit = "", likes = "", score = "", author = "", num_comments = "", ups = "", downs = "",
+			body = "", link_author = "", link_title = "", name = "", link_url = "", controversiality = "";
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getLink_author() {
+		return link_author;
+	}
+
+	public void setLink_author(String link_author) {
+		this.link_author = link_author;
+	}
+
+	public String getLink_title() {
+		return link_title;
+	}
+
+	public void setLink_title(String link_title) {
+		this.link_title = link_title;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getControversiality() {
+		return controversiality;
+	}
+
+	public void setControversiality(String controversiality) {
+		this.controversiality = controversiality;
+	}
+
 	private ArrayList<Children> children = new ArrayList<>();
-
-	public String getModhash() {
-		return modhash;
-	}
-
-	public void setModhash(String modhash) {
-		this.modhash = modhash;
-	}
 
 	public ArrayList<Children> getChildren() {
 		return children;
@@ -56,22 +89,6 @@ public class Data {
 		this.score = score;
 	}
 
-	public String getView_count() {
-		return view_count;
-	}
-
-	public void setView_count(String view_count) {
-		this.view_count = view_count;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getNum_comments() {
 		return num_comments;
 	}
@@ -96,14 +113,6 @@ public class Data {
 		this.downs = downs;
 	}
 
-	public String getSelftext() {
-		return selftext;
-	}
-
-	public void setSelftext(String selftext) {
-		this.selftext = selftext;
-	}
-
 	public String getAuthor() {
 		return author;
 	}
@@ -112,12 +121,12 @@ public class Data {
 		this.author = author;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getLink_url() {
+		return link_url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setLink_url(String link_url) {
+		this.link_url = link_url;
 	}
 
 }
