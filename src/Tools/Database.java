@@ -1,10 +1,19 @@
 package Tools;
+/*
+ * Christopher Turner
+ * 09/27/2017
+ * University of Southern California
+ * Viterbi School of Engineering
+ * Mass-IG
+ * 
+ * Database.java
+ * 
+ */
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-// CHRISTOPHER TURNER
 
 import Reddit.Data;
 
