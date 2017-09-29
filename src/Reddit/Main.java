@@ -11,10 +11,14 @@ package Reddit;
 
 import java.util.Timer;
 
+import Tools.Database;
+
 public class Main {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
-		timer.schedule(new CreateReddit(), 0, 10000);
+		Database db = new Database("java","miturtc");
+		timer.schedule(new CreateReddit(db), 0, 10000);
+		db.close();
 	}
 
 }

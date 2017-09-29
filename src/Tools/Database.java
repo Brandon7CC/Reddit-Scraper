@@ -32,6 +32,15 @@ public class Database {
 	public Connection getConn() {
 		return conn;
 	}
+	
+	public void close() {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public boolean existsInDB(Data d) {
 

@@ -25,13 +25,18 @@ import Tools.CleanPost;
 import Tools.Database;
 
 public class CreateReddit extends TimerTask {
+	
 	private Reddit reddit = null;
-	private Database db = new Database("java", "miturtc");;
+	private Database db = null;
 	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
 	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
 	private String url = "https://www.reddit.com/r/changemyview/comments/.json";
+	
+	public CreateReddit(Database myDB) {
+		db = myDB;
+	}
 
 	@Override
 	public void run() {
