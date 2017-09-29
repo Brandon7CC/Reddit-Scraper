@@ -39,10 +39,7 @@ public class CreateReddit extends TimerTask {
 		this.reddit = gson.fromJson(json, Reddit.class);
 
 		getAllData(reddit.getData().getChildren());
-
-<<<<<<< HEAD
-		db = new Database("java", "miturtc");
-
+		
 		try (Statement statement = db.getConn().createStatement()) {
 			ResultSet resultSet = statement.executeQuery("SHOW TABLES");
 			while (resultSet.next()) {
@@ -59,22 +56,6 @@ public class CreateReddit extends TimerTask {
 //				db.add(d);
 //			}
 //		}
-=======
-		/*
-		 * try (Statement statement = db.getConn().createStatement()) { ResultSet
-		 * resultSet = statement.executeQuery("SHOW TABLES"); while (resultSet.next()) {
-		 * System.out.println(resultSet.getString(1)); } } catch (SQLException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-
-		for (Data d : allData) {
-			d.setBody(cleaner.cleanPost(d.getBody()));
-
-			if (!db.existsInDB(d)) {
-				db.add(d);
-			}
-		}
->>>>>>> 1b8c850672bc1e1a58bc693287b46d71ba7baadc
 		// WriteOut.writeData(this.reddit);
 
 		allData.clear();
