@@ -31,7 +31,7 @@ public class CreateReddit extends TimerTask {
 	private Gson gson = new Gson();
 	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
-	private String url = "https://www.reddit.com/r/changemyview/.json";
+	private String url = "https://www.reddit.com/r/changemyview/comments/.json";
 
 	@Override
 	public void run() {
