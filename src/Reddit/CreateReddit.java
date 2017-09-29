@@ -26,7 +26,7 @@ import Tools.Database;
 
 public class CreateReddit extends TimerTask {
 	private Reddit reddit = null;
-	private Database db = null;
+	private Database db = new Database("java", "miturtc");;
 	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
 	private static ArrayList<Data> allData = new ArrayList<>();
@@ -39,8 +39,6 @@ public class CreateReddit extends TimerTask {
 		this.reddit = gson.fromJson(json, Reddit.class);
 
 		getAllData(reddit.getData().getChildren());
-
-		db = new Database("christopher", "turner");
 
 		/*
 		 * try (Statement statement = db.getConn().createStatement()) { ResultSet

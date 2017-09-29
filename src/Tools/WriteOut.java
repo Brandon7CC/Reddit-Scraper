@@ -84,8 +84,8 @@ public class WriteOut {
 				text = cleaner.cleanPost(d.getBody());
 
 				// Printing all the data to the CSV
-				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + numComments
-						+ "\",\"" + ups + "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
+				pw.println("\"" + counter + "\",\"" + author + "\",\"" + title + "\",\"" + numComments + "\",\"" + ups
+						+ "\",\"" + downs + "\",\"" + score + "\",\"" + text + "\"");
 
 				counter++;
 			}

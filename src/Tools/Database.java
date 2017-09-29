@@ -13,6 +13,7 @@ package Tools;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import Reddit.Data;
 
@@ -38,7 +39,15 @@ public class Database {
 	}
 
 	public void add(Data d) {
+		String insertQuery = String.format("insert into cmv.posts(author) values(%s)", d.getAuthor());
 		
+		Statement st;
+		try {
+			st = conn.createStatement();
+		    st.executeUpdate(insertQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void connect() {
