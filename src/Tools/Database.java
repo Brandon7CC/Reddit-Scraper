@@ -10,7 +10,6 @@ package Tools;
  * 
  */
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,7 +38,7 @@ public class Database {
 	}
 
 	public void add(Data d) {
-
+		
 	}
 
 	private void connect() {

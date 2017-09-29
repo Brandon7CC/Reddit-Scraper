@@ -31,6 +31,7 @@ public class CreateReddit extends TimerTask {
 	private Database db = null;
 	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
+	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
 	private String url = "https://www.reddit.com/r/changemyview/.json";
 
@@ -38,27 +39,28 @@ public class CreateReddit extends TimerTask {
 	public void run() {
 		String json = getJson(this.url);
 		this.reddit = gson.fromJson(json, Reddit.class);
-		ArrayList<Children> children = reddit.getData().getChildren();
-		db = new Database("christopher", "turner");
-		try (Statement statement = db.getConn().createStatement()) {
-			ResultSet resultSet = statement.executeQuery("SHOW TABLES");
-			while (resultSet.next()) {
-				System.out.println(resultSet.getString(1));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		// for (Children c : children) {
-		// Data d = c.getData();
-		// d.setSelftext(cleaner.cleanPost(d.getSelftext()));
-		//
-		// if (!db.existsInDB(d)) {
-		// db.add(d);
-		// }
-		// }
-		// WriteOut.writeData(this.reddit);
+		getAllData(reddit.getData().getChildren());
+
+		db = new Database("christopher", "turner");
+
+		/*
+		 * try (Statement statement = db.getConn().createStatement()) { ResultSet
+		 * resultSet = statement.executeQuery("SHOW TABLES"); while (resultSet.next()) {
+		 * System.out.println(resultSet.getString(1)); } } catch (SQLException e) { //
+		 * TODO Auto-generated catch block e.printStackTrace(); }
+		 */
+		
+		for (Data d : allData) {
+			d.setSelftext(cleaner.cleanPost(d.getSelftext()));
+
+			if (!db.existsInDB(d)) {
+				db.add(d);
+			} 
+		}
+		//WriteOut.writeData(this.reddit);
+
+		allData.clear();
 	}
 
 	// String -> String
@@ -75,5 +77,12 @@ public class CreateReddit extends TimerTask {
 			System.out.println("JSON fetch error: " + e.getMessage());
 		}
 		return null;
+	}
+
+	private static void getAllData(ArrayList<Children> children) {
+		// For each child from Reddit put all their data into an ArrayList
+		for (Children c : children) {
+			allData.add(c.getData());
+		}
 	}
 }
