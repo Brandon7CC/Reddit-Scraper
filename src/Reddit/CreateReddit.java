@@ -12,13 +12,12 @@ package Reddit;
  */
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TimerTask;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
 import com.google.gson.Gson;
 
 import Tools.CleanPost;

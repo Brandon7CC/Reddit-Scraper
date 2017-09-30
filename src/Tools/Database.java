@@ -19,7 +19,9 @@ import java.sql.Statement;
 import Reddit.Data;
 
 public class Database {
+	@SuppressWarnings("unused")
 	private String username;
+	@SuppressWarnings("unused")
 	private String password;
 	private Connection conn;
 
