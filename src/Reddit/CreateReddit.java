@@ -60,6 +60,12 @@ public class CreateReddit extends TimerTask {
 			if (!db.existsInDB(d)) {
 				db.add(d);
 			}
+			
+			for(Data commentData : d.getComments()) {
+				if (!db.existsInDB(commentData)) {
+					db.add(commentData);
+				}
+			}
 		}
 		// WriteOut.writeData(this.reddit); // CSV
 
@@ -86,11 +92,20 @@ public class CreateReddit extends TimerTask {
 		// For each child from Reddit put all their data into an ArrayList
 		for (Children c : children) {
 			allData.add(c.getData());
-
-			String commentsURL = c.getData().getLink_url();
-			String commentJSON = getJson(commentsURL);
+		}
+		
+		ArrayList<Data> allComments = new ArrayList<>();
+		
+		for(Data d : allData) {
+			String commentsURL = d.getLink_url();
+			String commentJSON = getJson(commentsURL + ".json");
 
 			Reddit comments = gson.fromJson(commentJSON, Reddit.class);
+			for(Children commentData : comments.getData().getChildren()) {
+				allComments.add(commentData.getData());
+			}
+			d.setComments(allComments);
+			allComments.clear();
 		}
 	}
 }

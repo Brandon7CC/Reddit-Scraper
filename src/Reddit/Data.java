@@ -18,7 +18,9 @@ import java.util.TimeZone;
 public class Data {
 	private String subreddit = "", likes = "", score = "", author = "", num_comments = "", ups = "", downs = "",
 			body = "", link_author = "", link_title = "", name = "", link_url = "", controversiality = "", link_id = "",
-			id = "", created_utc = "";
+			id = "", created_utc = "", parent_id = "";
+	private ArrayList<Data> comments = null;
+	private ArrayList<Children> children = new ArrayList<>();
 
 	public String getLink_id() {
 		return link_id;
@@ -88,7 +90,7 @@ public class Data {
 		this.controversiality = controversiality;
 	}
 
-	private ArrayList<Children> children = new ArrayList<>();
+	
 
 	public ArrayList<Children> getChildren() {
 		return children;
@@ -160,6 +162,22 @@ public class Data {
 
 	public void setLink_url(String link_url) {
 		this.link_url = link_url;
+	}
+
+	public ArrayList<Data> getComments() {
+		return comments;
+	}
+
+	public void setComments(ArrayList<Data> comments) {
+		this.comments = comments;
+	}
+
+	public String getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(String parent_id) {
+		this.parent_id = parent_id;
 	}
 
 }
