@@ -24,7 +24,7 @@ import Tools.CleanPost;
 import Tools.Database;
 
 public class CreateReddit extends TimerTask {
-	
+
 	private Reddit reddit = null;
 	private Database db = null;
 	private CleanPost cleaner = new CleanPost();
@@ -32,7 +32,7 @@ public class CreateReddit extends TimerTask {
 	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
 	private String url = "https://www.reddit.com/r/changemyview/comments/.json";
-	
+
 	public CreateReddit(Database myDB) {
 		db = myDB;
 	}
@@ -43,15 +43,15 @@ public class CreateReddit extends TimerTask {
 		this.reddit = gson.fromJson(json, Reddit.class);
 
 		getAllData(reddit.getData().getChildren());
-		
-//		try (Statement statement = db.getConn().createStatement()) {
-//			ResultSet resultSet = statement.executeQuery("SHOW TABLES");
-//			while (resultSet.next()) {
-//				System.out.println(resultSet.getString(1));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+
+		// try (Statement statement = db.getConn().createStatement()) {
+		// ResultSet resultSet = statement.executeQuery("SHOW TABLES");
+		// while (resultSet.next()) {
+		// System.out.println(resultSet.getString(1));
+		// }
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
 
 		for (Data d : allData) {
 			d.setBody(cleaner.cleanPost(d.getBody()));
@@ -61,7 +61,7 @@ public class CreateReddit extends TimerTask {
 				db.add(d);
 			}
 		}
-//		 WriteOut.writeData(this.reddit);  // CSV
+		// WriteOut.writeData(this.reddit); // CSV
 
 		allData.clear();
 	}
@@ -82,10 +82,15 @@ public class CreateReddit extends TimerTask {
 		return null;
 	}
 
-	private static void getAllData(ArrayList<Children> children) {
+	private void getAllData(ArrayList<Children> children) {
 		// For each child from Reddit put all their data into an ArrayList
 		for (Children c : children) {
 			allData.add(c.getData());
+
+			String commentsURL = c.getData().getLink_url();
+			String commentJSON = getJson(commentsURL);
+
+			Reddit comments = gson.fromJson(commentJSON, Reddit.class);
 		}
 	}
 }
