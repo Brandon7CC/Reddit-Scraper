@@ -78,6 +78,22 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
+	public void update(Data d) {
+//		String insertQuery = String.format(
+//				"UPDATE cmv.posts SET WHERE link_id='%s'",
+//				d.getSubreddit(), d.getAuthor(), d.getNum_comments(), d.getUps(), d.getDowns(),
+//				d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
+//				d.getId(), d.getCreated_utc(), d.getLink_id());
+//
+//		Statement st;
+//		try {
+//			st = conn.createStatement();
+//			st.executeUpdate(insertQuery);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+	}
 
 	private void connect() {
 //		String instanceConnectionName = "mass-ig-172203:us-west1:reddit";
