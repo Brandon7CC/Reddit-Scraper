@@ -62,6 +62,9 @@ public class CreateReddit extends TimerTask {
 			}
 			
 			for(Data commentData : d.getComments()) {
+				commentData.setBody(cleaner.cleanPost(d.getBody()));
+				commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
+				
 				if (!db.existsInDB(commentData)) {
 					db.add(commentData);
 				}
@@ -93,13 +96,13 @@ public class CreateReddit extends TimerTask {
 		for (Children c : children) {
 			allData.add(c.getData());
 		}
-		
+		/*
 		ArrayList<Data> allComments = new ArrayList<>();
 		
 		for(Data d : allData) {
 			String commentsURL = d.getLink_url();
 			String commentJSON = getJson(commentsURL + ".json");
-
+			System.out.println(commentJSON);
 			Reddit comments = gson.fromJson(commentJSON, Reddit.class);
 			for(Children commentData : comments.getData().getChildren()) {
 				allComments.add(commentData.getData());
@@ -107,5 +110,6 @@ public class CreateReddit extends TimerTask {
 			d.setComments(allComments);
 			allComments.clear();
 		}
+		*/
 	}
 }
