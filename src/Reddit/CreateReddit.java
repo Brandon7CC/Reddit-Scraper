@@ -59,7 +59,8 @@ public class CreateReddit extends TimerTask {
 				d.setLink_title(cleaner.cleanPost(d.getLink_title()));
 
 				if (!db.existsInDB(d)) {
-					System.out.println("Adding: " + d.getLink_url());
+					System.out.println(d.getLink_url());
+					System.out.println("Author: " + d.getAuthor() + "\n");
 					db.add(d);
 				}
 				/*
