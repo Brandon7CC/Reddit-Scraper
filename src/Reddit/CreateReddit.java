@@ -52,24 +52,29 @@ public class CreateReddit extends TimerTask {
 		// } catch (SQLException e) {
 		// e.printStackTrace();
 		// }
+		
+		if (allData != null && allData.size() > 0) {
+			for (Data d : allData) {
+				d.setBody(cleaner.cleanPost(d.getBody()));
+				d.setLink_title(cleaner.cleanPost(d.getLink_title()));
 
-		for (Data d : allData) {
-			d.setBody(cleaner.cleanPost(d.getBody()));
-			d.setLink_title(cleaner.cleanPost(d.getLink_title()));
-
-			if (!db.existsInDB(d)) {
-				db.add(d);
-			}
-			
-			for(Data commentData : d.getComments()) {
-				commentData.setBody(cleaner.cleanPost(d.getBody()));
-				commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
-				
-				if (!db.existsInDB(commentData)) {
-					db.add(commentData);
+				if (!db.existsInDB(d)) {
+					System.out.println("Adding: " + d.getLink_url());
+					db.add(d);
 				}
+				/*
+				for (Data commentData : d.getComments()) {
+					commentData.setBody(cleaner.cleanPost(d.getBody()));
+					commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
+
+					if (!db.existsInDB(commentData)) {
+						db.add(commentData);
+					}
+				}
+				*/
 			}
 		}
+
 		// WriteOut.writeData(this.reddit); // CSV
 
 		allData.clear();
@@ -97,19 +102,14 @@ public class CreateReddit extends TimerTask {
 			allData.add(c.getData());
 		}
 		/*
-		ArrayList<Data> allComments = new ArrayList<>();
-		
-		for(Data d : allData) {
-			String commentsURL = d.getLink_url();
-			String commentJSON = getJson(commentsURL + ".json");
-			System.out.println(commentJSON);
-			Reddit comments = gson.fromJson(commentJSON, Reddit.class);
-			for(Children commentData : comments.getData().getChildren()) {
-				allComments.add(commentData.getData());
-			}
-			d.setComments(allComments);
-			allComments.clear();
-		}
-		*/
+		 * ArrayList<Data> allComments = new ArrayList<>();
+		 * 
+		 * for(Data d : allData) { String commentsURL = d.getLink_url(); String
+		 * commentJSON = getJson(commentsURL + ".json");
+		 * System.out.println(commentJSON); Reddit comments = gson.fromJson(commentJSON,
+		 * Reddit.class); for(Children commentData : comments.getData().getChildren()) {
+		 * allComments.add(commentData.getData()); } d.setComments(allComments);
+		 * allComments.clear(); }
+		 */
 	}
 }
