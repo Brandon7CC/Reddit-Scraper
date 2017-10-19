@@ -20,7 +20,6 @@ import org.jsoup.nodes.Document;
 
 import com.google.gson.Gson;
 
-import Tools.CleanPost;
 import Tools.Database;
 
 public class CreateReddit extends TimerTask {
@@ -55,9 +54,7 @@ public class CreateReddit extends TimerTask {
 		if (allData != null && allData.size() > 0) {
 			for (Data d : allData) {
 				if (!db.existsInDB(d)) {
-					System.out.println(d.getUrl());
-					System.out.println("Author: " + d.getAuthor() + "\n");
-					// db.add(d);
+					db.add(d);
 				}
 				/*
 				 * for (Data commentData : d.getComments()) {

@@ -22,7 +22,7 @@ public class Data {
 		return edited;
 	}
 
-	public boolean isIs_reddit_media_domain() {
+	public boolean is_reddit_media_domain() {
 		return is_reddit_media_domain;
 	}
 
@@ -42,7 +42,7 @@ public class Data {
 		return can_mod_post;
 	}
 
-	public boolean isIs_crosspostable() {
+	public boolean is_crosspostable() {
 		return is_crosspostable;
 	}
 
@@ -74,7 +74,7 @@ public class Data {
 		return can_gild;
 	}
 
-	public boolean isIs_self() {
+	public boolean is_self() {
 		return is_self;
 	}
 
@@ -98,7 +98,7 @@ public class Data {
 		return visited;
 	}
 
-	public boolean isIs_video() {
+	public boolean is_video() {
 		return is_video;
 	}
 

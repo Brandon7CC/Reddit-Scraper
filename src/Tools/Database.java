@@ -66,26 +66,31 @@ public class Database {
 		String separator1 = ") values(";
 		String valuePlaceholders = "'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'";
 		String separator2 = ")";
-		String values = "";
-		String.format(command + params + separator1 + valuePlaceholders + separator2, values);
-		// String insertQuery = String.format(
-		// "INSERT INTO
-		// cmv.posts(subreddit,author,num_comments,ups,downs,body,link_author,link_title,name,link_url,link_id,id,created_utc)
-		// values('%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s','%s', '%s',
-		// '%s')",
-		// d.getSubreddit(), d.getAuthor(), d.getNum_comments(), d.getUps(),
-		// d.getDowns(), d.getBody(),
-		// d.getLink_author(), d.getLink_title(), d.getName(), d.getLink_url(),
-		// d.getLink_id(), d.getId(),
-		// d.getCreated_utc(), d.getParent_id());
-		//
-		// Statement st;
-		// try {
-		// st = conn.createStatement();
-		// st.executeUpdate(insertQuery);
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
+		String insertQuery = String.format(command + params + separator1 + valuePlaceholders + separator2, d.getId(),
+				d.getDomain(), d.getApproved_at_utc(), d.getBanned_by(), d.getSubreddit(),
+				CleanPost.cleanPost(d.getSelftext_html()), CleanPost.cleanPost(d.getSelftext()), d.getLikes(),
+				d.getSuggested_sort(), d.getSecure_media(), (d.is_reddit_media_domain()) ? 1 : 0, (d.isSaved()) ? 1 : 0,
+				d.getBanned_utc(), d.getView_count(), (d.isArchived()) ? 1 : 0, (d.isClicked()) ? 1 : 0,
+				d.getReport_reasons(), CleanPost.cleanPost(d.getTitle()), d.getNum_crossposts(), d.getLink_flair_text(),
+				(d.isCan_mod_post()) ? 1 : 0, (d.is_crosspostable()) ? 1 : 0, (d.isPinned()) ? 1 : 0, d.getScore(),
+				d.getApproved_by(), (d.isOver_18()) ? 1 : 0, (d.isHidden()) ? 1 : 0, d.getThumbnail(),
+				d.getSubreddit_id(), d.getEdited(), d.getLink_flair_css_class(), d.getAuthor_flair_css_class(),
+				(d.isContest_mode()) ? 1 : 0, d.getGilded(), d.getDowns(), (d.isBrand_safe()) ? 1 : 0,
+				d.getRemoval_reason(), d.getAuthor_flair_text(), (d.isStickied()) ? 1 : 0, (d.isCan_gild()) ? 1 : 0,
+				(d.is_self()) ? 1 : 0, d.getParent_whitelist_status(), d.getName(), d.getPermalink(),
+				d.getSubreddit_type(), (d.isLocked()) ? 1 : 0, (d.isHide_score()) ? 1 : 0, d.getCreated(), d.getUrl(),
+				d.getWhitelist_status(), (d.isQuarantine()) ? 1 : 0, d.getAuthor(), d.getCreated_utc(),
+				d.getSubreddit_name_prefixed(), d.getUps(), d.getMedia(), d.getNum_comments(), (d.isVisited()) ? 1 : 0,
+				d.getNum_reports(), (d.is_video()) ? 1 : 0, d.getDistinguished());
+
+		Statement st;
+		try {
+			st = conn.createStatement();
+			st.executeUpdate(insertQuery);
+		} catch (SQLException e) {
+			System.out.println("Insertion could not be completed for ID: " + d.getId());
+			System.exit(0);
+		}
 	}
 
 	public void update(Data d) {
