@@ -12,6 +12,7 @@ package Tools;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -95,21 +96,77 @@ public class Database {
 	}
 
 	public void update(Data d) {
-		// String insertQuery = String.format(
-		// "UPDATE cmv.posts SET WHERE link_id='%s'",
-		// d.getSubreddit(), d.getAuthor(), d.getNum_comments(), d.getUps(),
-		// d.getDowns(),
-		// d.getBody(), d.getLink_author(), d.getLink_title(), d.getName(),
-		// d.getLink_url(),
-		// d.getId(), d.getCreated_utc(), d.getLink_id());
-		//
-		// Statement st;
-		// try {
-		// st = conn.createStatement();
-		// st.executeUpdate(insertQuery);
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
+		String command = "UPDATE cmv.posts SET ";
+		String params = "id,domain,approved_at_utc,banned_by,subreddit,selftext_html,selftext,likes,suggested_sort,secure_media,is_reddit_media_domain,saved,banned_at_utc,view_count,archived,clicked,report_reasons,title,num_crossposts,link_flair_text,can_mod_post,is_crosspostable,pinned,score,approved_by,over_18,hidden,thumbnail,subreddit_id,edited,link_flair_css_class,author_flair_css_class,contest_mode,gilded,downs,brand_safe,removal_reason,author_flair_text,stickied,can_gild,is_self,parent_whitelist_status,name,permalink,subreddit_type,locked,hide_score,created,url,whitelist_status,quarantine,author,created_utc,subreddit_name_prefixed,ups,media,num_comments,visited,num_reports,is_video,distinguished";
+		String separator1 = ") values(";
+		String valuePlaceholders = "'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'";
+		String separator2 = ")";
+		String filter = "WHERE id='%s'";
+		String insertQuery = String.format(command + params + separator1 + valuePlaceholders + separator2 + filter,
+				(d.isContest_mode()) ? 1 : 0, d.getGilded(), d.getDowns(), (d.isBrand_safe()) ? 1 : 0,
+				d.getRemoval_reason(), d.getAuthor_flair_text(), (d.isStickied()) ? 1 : 0, (d.isCan_gild()) ? 1 : 0,
+				(d.is_self()) ? 1 : 0, d.getParent_whitelist_status(), d.getName(), d.getPermalink(),
+				d.getSubreddit_type(), (d.isLocked()) ? 1 : 0, (d.isHide_score()) ? 1 : 0, d.getCreated(), d.getUrl(),
+				d.getWhitelist_status(), (d.isQuarantine()) ? 1 : 0, d.getAuthor(), d.getCreated_utc(),
+				d.getSubreddit_name_prefixed(), d.getUps(), d.getMedia(), d.getNum_comments(), (d.isVisited()) ? 1 : 0,
+				d.getNum_reports(), (d.is_video()) ? 1 : 0, d.getDistinguished());
+		String updateQuery = "UPDATE cmv.posts SET domain = ? , " + "approved_at_utc = ? , " + "banned_by = ? , "
+				+ "subreddit = ? , " + "selftext_html = ? , " + "selftext = ? , " + "likes = ? , "
+				+ "suggested_sort = ? , " + "secure_media = ? , " + "is_reddit_media_domain = ? , " + "saved = ? , "
+				+ "banned_at_utc = ? , " + "view_count = ? , " + "archived = ? , " + "clicked = ? , "
+				+ "report_reasons = ? , " + "title = ? , " + "num_crossposts = ? , " + "link_flair_text = ? , "
+				+ "can_mod_post = ? , " + "is_crosspostable = ? , " + "pinned = ? , " + "score = ? , "
+				+ "approved_by = ? , " + "over_18 = ? , " + "hidden = ? , " + "thumbnail = ? , " + "subreddit_id = ? , "
+				+ "edited = ? , " + "link_flair_css_class = ? , " + "author_flair_css_class = ? , "
+				+ "contest_mode = ? , " + "gilded = ? , " + "downs = ? , " + "brand_safe = ? , "
+				+ "removal_reason = ? , " + "author_flair_text = ? , " + "stickied = ? , " + "can_gild = ? , "
+				+ "is_self = ? , " + "parent_whitelist_status = ? , " + "name = ? , " + "permalink = ? , "
+				+ "subreddit_type = ? , " + "locked = ? , " + "hide_score = ? , " + "created = ? , " + "url = ? , "
+				+ "whitelist_status = ? , " + "quarantine = ? , " + "author = ? , " + "created_utc = ? , "
+				+ "subreddit_name_prefixed = ? , " + "ups = ? , " + "media = ? , " + "num_comments = ? , "
+				+ "visited = ? , " + "num_reports = ? , " + "is_video = ? , " + "distinguished = ? WHERE id = ?";
+
+		try (PreparedStatement st = conn.prepareStatement(updateQuery)) {
+			st.setString(1, d.getDomain());
+			st.setString(2, d.getApproved_at_utc());
+			st.setString(3, d.getBanned_by());
+			st.setString(4, d.getSubreddit());
+			st.setString(5, CleanPost.cleanPost(d.getSelftext_html()));
+			st.setString(6, CleanPost.cleanPost(d.getSelftext()));
+			st.setString(7, d.getLikes());
+			st.setString(8, d.getSuggested_sort());
+			st.setString(9, d.getSecure_media());
+			st.setBoolean(10, d.is_reddit_media_domain());
+			st.setBoolean(11, d.isSaved());
+			st.setString(12, d.getBanned_utc());
+			st.setString(13, d.getView_count());
+			st.setBoolean(14, d.isArchived());
+			st.setBoolean(15, d.isClicked());
+			st.setString(16, d.getReport_reasons());
+			st.setString(17, CleanPost.cleanPost(d.getTitle()));
+			st.setInt(18, d.getNum_crossposts());
+			st.setString(19, d.getLink_flair_text());
+			st.setBoolean(20, d.isCan_mod_post());
+			st.setBoolean(21, d.is_crosspostable());
+			st.setBoolean(22, d.isPinned());
+			st.setInt(23, d.getScore());
+			st.setString(24, d.getApproved_by());
+			st.setBoolean(25, d.isOver_18());
+			st.setBoolean(26, d.isHidden());
+			st.setString(27, d.getThumbnail());
+			st.setString(28, d.getSubreddit_id());
+			st.setString(29, d.getEdited());
+			st.setString(30, d.getLink_flair_css_class());
+			st.setString(31, d.getAuthor_flair_css_class());
+			st.setBoolean(32, d.isContest_mode());
+			st.setBoolean(33, d.isContest_mode());
+			st.setInt(34, d.getGilded());
+
+		//	st.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Update could not be completed for ID: " + d.getId());
+			System.exit(0);
+		}
 	}
 
 	private void connect() {
@@ -118,7 +175,7 @@ public class Database {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cmv?user=java&password=miturtc");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmv?user=java&password=miturtc");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
