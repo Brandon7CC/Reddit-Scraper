@@ -27,11 +27,9 @@ public class CreateReddit extends TimerTask {
 
 	private Reddit reddit = null;
 	private Database db = null;
-	private CleanPost cleaner = new CleanPost();
 	private Gson gson = new Gson();
-	private static ArrayList<Data> allData = new ArrayList<>();
 	// Add the REST API link for the sub-reddit here
-	private String url = "https://www.reddit.com/r/changemyview/comments/.json";
+	private String url = "https://www.reddit.com/r/changemyview/.json";
 
 	public CreateReddit(Database myDB) {
 		db = myDB;
@@ -41,9 +39,10 @@ public class CreateReddit extends TimerTask {
 	public void run() {
 		String json = getJson(this.url);
 		this.reddit = gson.fromJson(json, Reddit.class);
-
-		getAllData(reddit.getData().getChildren());
-
+		ArrayList<Data> allData = new ArrayList<Data>();
+		for (Child c : reddit.getData().getChildren()) {
+			allData.add(c.getData());
+		}
 		// try (Statement statement = db.getConn().createStatement()) {
 		// ResultSet resultSet = statement.executeQuery("SHOW TABLES");
 		// while (resultSet.next()) {
@@ -52,32 +51,23 @@ public class CreateReddit extends TimerTask {
 		// } catch (SQLException e) {
 		// e.printStackTrace();
 		// }
-		
+
 		if (allData != null && allData.size() > 0) {
 			for (Data d : allData) {
-				d.setBody(cleaner.cleanPost(d.getBody()));
-				d.setLink_title(cleaner.cleanPost(d.getLink_title()));
-
 				if (!db.existsInDB(d)) {
-					System.out.println(d.getLink_url());
+					System.out.println(d.getUrl());
 					System.out.println("Author: " + d.getAuthor() + "\n");
-					db.add(d);
+					// db.add(d);
 				}
 				/*
-				for (Data commentData : d.getComments()) {
-					commentData.setBody(cleaner.cleanPost(d.getBody()));
-					commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
-
-					if (!db.existsInDB(commentData)) {
-						db.add(commentData);
-					}
-				}
-				*/
+				 * for (Data commentData : d.getComments()) {
+				 * commentData.setBody(cleaner.cleanPost(d.getBody()));
+				 * commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
+				 * 
+				 * if (!db.existsInDB(commentData)) { db.add(commentData); } }
+				 */
 			}
 		}
-
-		// WriteOut.writeData(this.reddit); // CSV
-
 		allData.clear();
 	}
 
@@ -97,20 +87,22 @@ public class CreateReddit extends TimerTask {
 		return null;
 	}
 
-	private void getAllData(ArrayList<Children> children) {
-		// For each child from Reddit put all their data into an ArrayList
-		for (Children c : children) {
-			allData.add(c.getData());
-		}
-		/*
-		 * ArrayList<Data> allComments = new ArrayList<>();
-		 * 
-		 * for(Data d : allData) { String commentsURL = d.getLink_url(); String
-		 * commentJSON = getJson(commentsURL + ".json");
-		 * System.out.println(commentJSON); Reddit comments = gson.fromJson(commentJSON,
-		 * Reddit.class); for(Children commentData : comments.getData().getChildren()) {
-		 * allComments.add(commentData.getData()); } d.setComments(allComments);
-		 * allComments.clear(); }
-		 */
-	}
+	// private void getAllData(ArrayList<Children> children) {
+	// // For each child from Reddit put all their data into an ArrayList
+	// for (Children c : children) {
+	// allData.add(c.getData());
+	// }
+	// /*
+	// * ArrayList<Data> allComments = new ArrayList<>();
+	// *
+	// * for(Data d : allData) { String commentsURL = d.getLink_url(); String
+	// * commentJSON = getJson(commentsURL + ".json");
+	// * System.out.println(commentJSON); Reddit comments =
+	// gson.fromJson(commentJSON,
+	// * Reddit.class); for(Children commentData : comments.getData().getChildren())
+	// {
+	// * allComments.add(commentData.getData()); } d.setComments(allComments);
+	// * allComments.clear(); }
+	// */
+	// }
 }
