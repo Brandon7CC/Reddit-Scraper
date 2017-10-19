@@ -9,7 +9,7 @@ package Reddit;
  * Children.java
  */
 
-public class Children {
+public class Child {
 	private String kind = "";
 	private Data data = null;
 	
