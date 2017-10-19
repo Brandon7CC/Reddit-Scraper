@@ -103,8 +103,6 @@ public class Database {
 		String separator2 = ")";
 		String filter = "WHERE id='%s'";
 		String insertQuery = String.format(command + params + separator1 + valuePlaceholders + separator2 + filter,
-				(d.isContest_mode()) ? 1 : 0, d.getGilded(), d.getDowns(), (d.isBrand_safe()) ? 1 : 0,
-				d.getRemoval_reason(), d.getAuthor_flair_text(), (d.isStickied()) ? 1 : 0, (d.isCan_gild()) ? 1 : 0,
 				(d.is_self()) ? 1 : 0, d.getParent_whitelist_status(), d.getName(), d.getPermalink(),
 				d.getSubreddit_type(), (d.isLocked()) ? 1 : 0, (d.isHide_score()) ? 1 : 0, d.getCreated(), d.getUrl(),
 				d.getWhitelist_status(), (d.isQuarantine()) ? 1 : 0, d.getAuthor(), d.getCreated_utc(),
@@ -159,10 +157,19 @@ public class Database {
 			st.setString(30, d.getLink_flair_css_class());
 			st.setString(31, d.getAuthor_flair_css_class());
 			st.setBoolean(32, d.isContest_mode());
-			st.setBoolean(33, d.isContest_mode());
-			st.setInt(34, d.getGilded());
+			st.setInt(33, d.getGilded());
+			st.setInt(34, d.getDowns());
+			st.setBoolean(35, d.isBrand_safe());
+			st.setString(36, d.getRemoval_reason());
+			st.setString(37, d.getAuthor_flair_text());
+			st.setBoolean(38, d.isStickied());
+			st.setBoolean(39, d.isCan_gild());
+			st.setBoolean(40, d.is_self());
+			st.setString(41, d.getParent_whitelist_status());
+			st.setString(42, d.getName());
+			st.setString(43, d.getPermalink());
 
-		//	st.executeUpdate();
+			// st.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Update could not be completed for ID: " + d.getId());
 			System.exit(0);
