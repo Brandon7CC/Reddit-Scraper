@@ -29,6 +29,7 @@ public class Database {
 		this.username = newUsername;
 		this.password = newPassword;
 		this.connect();
+		System.out.println("Connected to database; querying for new top-level posts...");
 	}
 
 	public Connection getConn() {
@@ -124,5 +125,20 @@ public class Database {
 		}
 
 		conn = connection;
+	}
+
+	public String countPosts() {
+		String out = "";
+		try (Statement statement = conn.createStatement()) {
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM posts;");
+			while (resultSet.next()) {
+				out = resultSet.getString(1);
+			}
+			return out.trim();
+		} catch (SQLException e) {
+			System.out.println("Post count could not be updated.");
+			System.exit(0);
+		}
+		return out;
 	}
 }

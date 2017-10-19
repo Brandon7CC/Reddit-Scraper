@@ -66,6 +66,8 @@ public class CreateReddit extends TimerTask {
 			}
 		}
 		allData.clear();
+		String totalPosts = db.countPosts();
+		System.out.println("Queried for new top-level posts. Running total: " + totalPosts + " posts.");
 	}
 
 	// String -> String
