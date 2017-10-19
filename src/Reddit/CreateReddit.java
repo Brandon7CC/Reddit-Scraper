@@ -42,27 +42,15 @@ public class CreateReddit extends TimerTask {
 		for (Child c : reddit.getData().getChildren()) {
 			allData.add(c.getData());
 		}
-		// try (Statement statement = db.getConn().createStatement()) {
-		// ResultSet resultSet = statement.executeQuery("SHOW TABLES");
-		// while (resultSet.next()) {
-		// System.out.println(resultSet.getString(1));
-		// }
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
 
 		if (allData != null && allData.size() > 0) {
 			for (Data d : allData) {
 				if (!db.existsInDB(d)) {
 					db.add(d);
+					System.out.println("Added post: " + d.getTitle());
+				} else {
+					db.update(d);
 				}
-				/*
-				 * for (Data commentData : d.getComments()) {
-				 * commentData.setBody(cleaner.cleanPost(d.getBody()));
-				 * commentData.setLink_title(cleaner.cleanPost(d.getLink_title()));
-				 * 
-				 * if (!db.existsInDB(commentData)) { db.add(commentData); } }
-				 */
 			}
 		}
 		allData.clear();
@@ -85,23 +73,4 @@ public class CreateReddit extends TimerTask {
 		}
 		return null;
 	}
-
-	// private void getAllData(ArrayList<Children> children) {
-	// // For each child from Reddit put all their data into an ArrayList
-	// for (Children c : children) {
-	// allData.add(c.getData());
-	// }
-	// /*
-	// * ArrayList<Data> allComments = new ArrayList<>();
-	// *
-	// * for(Data d : allData) { String commentsURL = d.getLink_url(); String
-	// * commentJSON = getJson(commentsURL + ".json");
-	// * System.out.println(commentJSON); Reddit comments =
-	// gson.fromJson(commentJSON,
-	// * Reddit.class); for(Children commentData : comments.getData().getChildren())
-	// {
-	// * allComments.add(commentData.getData()); } d.setComments(allComments);
-	// * allComments.clear(); }
-	// */
-	// }
 }

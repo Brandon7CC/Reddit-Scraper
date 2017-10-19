@@ -96,18 +96,6 @@ public class Database {
 	}
 
 	public void update(Data d) {
-		String command = "UPDATE cmv.posts SET ";
-		String params = "id,domain,approved_at_utc,banned_by,subreddit,selftext_html,selftext,likes,suggested_sort,secure_media,is_reddit_media_domain,saved,banned_at_utc,view_count,archived,clicked,report_reasons,title,num_crossposts,link_flair_text,can_mod_post,is_crosspostable,pinned,score,approved_by,over_18,hidden,thumbnail,subreddit_id,edited,link_flair_css_class,author_flair_css_class,contest_mode,gilded,downs,brand_safe,removal_reason,author_flair_text,stickied,can_gild,is_self,parent_whitelist_status,name,permalink,subreddit_type,locked,hide_score,created,url,whitelist_status,quarantine,author,created_utc,subreddit_name_prefixed,ups,media,num_comments,visited,num_reports,is_video,distinguished";
-		String separator1 = ") values(";
-		String valuePlaceholders = "'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'";
-		String separator2 = ")";
-		String filter = "WHERE id='%s'";
-		String insertQuery = String.format(command + params + separator1 + valuePlaceholders + separator2 + filter,
-				(d.is_self()) ? 1 : 0, d.getParent_whitelist_status(), d.getName(), d.getPermalink(),
-				d.getSubreddit_type(), (d.isLocked()) ? 1 : 0, (d.isHide_score()) ? 1 : 0, d.getCreated(), d.getUrl(),
-				d.getWhitelist_status(), (d.isQuarantine()) ? 1 : 0, d.getAuthor(), d.getCreated_utc(),
-				d.getSubreddit_name_prefixed(), d.getUps(), d.getMedia(), d.getNum_comments(), (d.isVisited()) ? 1 : 0,
-				d.getNum_reports(), (d.is_video()) ? 1 : 0, d.getDistinguished());
 		String updateQuery = "UPDATE cmv.posts SET domain = ? , " + "approved_at_utc = ? , " + "banned_by = ? , "
 				+ "subreddit = ? , " + "selftext_html = ? , " + "selftext = ? , " + "likes = ? , "
 				+ "suggested_sort = ? , " + "secure_media = ? , " + "is_reddit_media_domain = ? , " + "saved = ? , "
@@ -168,8 +156,25 @@ public class Database {
 			st.setString(41, d.getParent_whitelist_status());
 			st.setString(42, d.getName());
 			st.setString(43, d.getPermalink());
-
-			// st.executeUpdate();
+			st.setString(44, d.getSubreddit_type());
+			st.setBoolean(45, d.isLocked());
+			st.setBoolean(46, d.isHide_score());
+			st.setDouble(47, d.getCreated());
+			st.setString(48, d.getUrl());
+			st.setString(49, d.getWhitelist_status());
+			st.setBoolean(50, d.isQuarantine());
+			st.setString(51, d.getAuthor());
+			st.setDouble(52, d.getCreated_utc());
+			st.setString(53, d.getSubreddit_name_prefixed());
+			st.setInt(54, d.getUps());
+			st.setString(55, d.getMedia());
+			st.setInt(56, d.getNum_comments());
+			st.setBoolean(57, d.isVisited());
+			st.setString(58, d.getNum_reports());
+			st.setBoolean(59, d.is_video());
+			st.setString(60, d.getDistinguished());
+			st.setString(61, d.getId());
+			st.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Update could not be completed for ID: " + d.getId());
 			System.exit(0);
