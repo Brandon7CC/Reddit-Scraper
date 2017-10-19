@@ -287,5 +287,4 @@ public class Data {
 	public Media getMedia_embed() {
 		return media_embed;
 	}
-
 }
