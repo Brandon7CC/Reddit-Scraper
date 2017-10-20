@@ -90,7 +90,6 @@ public class CreateReddit extends TimerTask {
 	private static String getJson(String url) {
 		Document doc;
 		try {
-			Thread.sleep(5000);
 			Connection con = Jsoup.connect(url).userAgent("Mozilla").ignoreContentType(true).timeout(30000);
 			Connection.Response resp = con.execute();
 			if (resp.statusCode() == 200) {
@@ -101,7 +100,7 @@ public class CreateReddit extends TimerTask {
 			// doc =
 			// Jsoup.connect(url).userAgent("chrome").ignoreContentType(true).timeout(10000).get();
 
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
