@@ -69,7 +69,7 @@ public class CreateReddit extends TimerTask {
 					PostListing tempListing = pr.getData();
 					for (PostChild child : tempListing.getChildren()) {
 						PostData tempData = child.getData();
-						//As you can see here we can get info specific to the comment from the PostData object.
+						//As you can see here we can get info specific to the comment from the [PostData object].
 						System.out.println(tempData.getAuthor());
 					}
 				}
