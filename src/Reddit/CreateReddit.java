@@ -58,7 +58,6 @@ public class CreateReddit extends TimerTask {
 				}
 
 				// Getting comments JSON
-				System.out.println(d.getUrl() + ".json");
 				json = getJson(d.getUrl() + ".json");
 				Type collectionType = new TypeToken<Collection<PostReddit>>() {
 				}.getType();
