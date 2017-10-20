@@ -11,12 +11,12 @@ package Reddit;
 
 public class PostChild {
 	private String kind;
-	private PostListing data;
+	private PostData data;
 	
 	public String getKind() {
 		return kind;
 	}
-	public PostListing getData() {
+	public PostData getData() {
 		return data;
 	}
 }
