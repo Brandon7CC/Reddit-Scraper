@@ -25,6 +25,7 @@ import Tools.Database;
 public class CreateReddit extends TimerTask {
 
 	private Reddit reddit = null;
+	private Post post = null;
 	private Database db = null;
 	private Gson gson = new Gson();
 	// Add the REST API link for the sub-reddit here
@@ -50,6 +51,17 @@ public class CreateReddit extends TimerTask {
 					System.out.println("Added post: " + d.getTitle());
 				} else {
 					db.update(d);
+				}
+				
+				json = getJson(d.getUrl() + ".json");
+				this.post = gson.fromJson(json, Post.class);
+				System.out.println("Here are the authors of the comments!");
+				for(PostReddit pr : this.post.getReddits()) {
+					PostListing tempListing = pr.getData();
+					for(PostChild child : tempListing.getChildren()) {
+						PostData tempData = child.getData();
+						System.out.println(tempData.getAuthor());
+					}
 				}
 			}
 		}

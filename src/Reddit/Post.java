@@ -13,5 +13,9 @@ package Reddit;
 import java.util.ArrayList;
 
 public class Post {
-	ArrayList<Reddit> reddits;
+	private ArrayList<PostReddit> reddits;
+	
+	public ArrayList<PostReddit> getReddits(){
+		return this.reddits;
+	}
 }
