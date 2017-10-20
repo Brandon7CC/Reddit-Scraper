@@ -6,9 +6,9 @@ public class PostData {
 	private String subreddit_id, approved_at_utc, banned_by, removal_reason, link_id, likes, id, banned_at_utc,
 			report_reasons, author, approved_by, author_flair_css_class, parent_id, collapsed_reason, body_html,
 			subreddit, body, subreddit_type, name, author_flair_text, subreddit_name_prefixed, num_reports,
-			distinguished;
+			distinguished, edited;
 
-	private boolean saved, archived, can_mod_post, edited, collapsed, is_submitter, stickied, can_gild, score_hidden;
+	private boolean saved, archived, can_mod_post, collapsed, is_submitter, stickied, can_gild, score_hidden;
 
 	private int gilded, ups, score, downs, created, created_utc, controversiality, depth, count;
 
@@ -17,7 +17,7 @@ public class PostData {
 	// private ArrayList<ModReports> mod_reports;
 	private ArrayList<String> children;
 	
-	private Reply replies;
+	//private Reply replies;
 
 	public String getSubreddit_id() {
 		return subreddit_id;
@@ -123,7 +123,7 @@ public class PostData {
 		return can_mod_post;
 	}
 
-	public boolean isEdited() {
+	public String isEdited() {
 		return edited;
 	}
 
@@ -187,7 +187,9 @@ public class PostData {
 		return children;
 	}
 
+	/*
 	public Reply getReplies() {
 		return replies;
 	}	
+	*/
 }

@@ -17,6 +17,17 @@ public class Data {
 			subreddit_id, link_flair_css_class, author_flair_css_class, removal_reason, author_flair_text,
 			parent_whitelist_status, name, permalink, subreddit_type, url, whitelist_status, author,
 			subreddit_name_prefixed, media, num_reports, distinguished, edited;
+	
+	private double created, created_utc;
+	private int num_crossposts, score, gilded, downs, ups, num_comments;
+	private boolean is_reddit_media_domain, saved, archived, clicked, can_mod_post, is_crosspostable, pinned, over_18,
+			hidden, contest_mode, brand_safe, stickied, can_gild, is_self, spoiler, locked, hide_score, quarantine,
+			visited, is_video;
+
+	private ArrayList<Report> user_reports;
+	private ArrayList<Report> mod_reports;
+	private Media media_embed;
+	
 
 	public String getEdited() {
 		return edited;
@@ -101,16 +112,6 @@ public class Data {
 	public boolean is_video() {
 		return is_video;
 	}
-
-	private double created, created_utc;
-	private int num_crossposts, score, gilded, downs, ups, num_comments;
-	private boolean is_reddit_media_domain, saved, archived, clicked, can_mod_post, is_crosspostable, pinned, over_18,
-			hidden, contest_mode, brand_safe, stickied, can_gild, is_self, spoiler, locked, hide_score, quarantine,
-			visited, is_video;
-
-	private ArrayList<Report> user_reports;
-	private ArrayList<Report> mod_reports;
-	private Media media_embed;
 
 	public String getDomain() {
 		return domain;

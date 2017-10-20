@@ -12,20 +12,23 @@ package Reddit;
  */
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.TimerTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import Tools.Database;
 
 public class CreateReddit extends TimerTask {
 
 	private Reddit reddit = null;
-	private Post post = null;
 	private Database db = null;
 	private Gson gson = new Gson();
 	// Add the REST API link for the sub-reddit here
@@ -53,17 +56,26 @@ public class CreateReddit extends TimerTask {
 					db.update(d);
 				}
 				
+				//Getting comments JSON
 				json = getJson(d.getUrl() + ".json");
-				this.post = gson.fromJson(json, Post.class);
-				System.out.println("Here are the authors of the comments!");
-				for(PostReddit pr : this.post.getReddits()) {
+				Type collectionType = new TypeToken<Collection<PostReddit>>() {
+				}.getType();
+				Collection<PostReddit> enums = gson.fromJson(json, collectionType);
+				Iterator<PostReddit> it = enums.iterator();
+				
+				//Going through the comments
+				while (it.hasNext()) {
+					PostReddit pr = it.next();
 					PostListing tempListing = pr.getData();
-					for(PostChild child : tempListing.getChildren()) {
+					for (PostChild child : tempListing.getChildren()) {
 						PostData tempData = child.getData();
+						//As you can see here we can get info specific to the comment from the PostData object.
 						System.out.println(tempData.getAuthor());
 					}
 				}
+
 			}
+
 		}
 		allData.clear();
 		String totalPosts = db.countPosts();
