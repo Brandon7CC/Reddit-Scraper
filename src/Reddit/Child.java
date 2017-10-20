@@ -6,7 +6,7 @@ package Reddit;
  * Viterbi School of Engineering
  * Mass-IG
  * 
- * Children.java
+ * Child.java
  */
 
 public class Child {
