@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.TimerTask;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -55,22 +56,24 @@ public class CreateReddit extends TimerTask {
 				} else {
 					db.update(d);
 				}
-				
-				//Getting comments JSON
+
+				// Getting comments JSON
+				System.out.println(d.getUrl() + ".json");
 				json = getJson(d.getUrl() + ".json");
 				Type collectionType = new TypeToken<Collection<PostReddit>>() {
 				}.getType();
 				Collection<PostReddit> enums = gson.fromJson(json, collectionType);
 				Iterator<PostReddit> it = enums.iterator();
-				
-				//Going through the comments
+
+				// Going through the comments
 				while (it.hasNext()) {
 					PostReddit pr = it.next();
 					PostListing tempListing = pr.getData();
 					for (PostChild child : tempListing.getChildren()) {
 						PostData tempData = child.getData();
-						//As you can see here we can get info specific to the comment from the [PostData object].
-						//System.out.println(tempData.getAuthor());
+						// As you can see here we can get info specific to the comment from the
+						// [PostData object].
+						System.out.println(tempData.getAuthor());
 					}
 				}
 
@@ -87,13 +90,19 @@ public class CreateReddit extends TimerTask {
 	private static String getJson(String url) {
 		Document doc;
 		try {
+			Thread.sleep(5000);
+			Connection con = Jsoup.connect(url).userAgent("Mozilla").ignoreContentType(true).timeout(30000);
+			Connection.Response resp = con.execute();
+			if (resp.statusCode() == 200) {
+				doc = con.get();
+				String json = doc.getElementsByTag("body").toString();
+				return json.substring(8, json.length() - 7);
+			}
+			// doc =
+			// Jsoup.connect(url).userAgent("chrome").ignoreContentType(true).timeout(10000).get();
 
-			doc = Jsoup.connect(url).userAgent("chrome").ignoreContentType(true).timeout(0).get();
-			String json = doc.getElementsByTag("body").toString();
-
-			return json.substring(8, json.length() - 7);
-		} catch (IOException e) {
-			System.out.println("JSON fetch error: " + e.getMessage());
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
