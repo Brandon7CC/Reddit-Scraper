@@ -63,20 +63,21 @@ public class CreateReddit extends TimerTask {
 				Type collectionType = new TypeToken<Collection<PostReddit>>() {
 				}.getType();
 				Collection<PostReddit> enums = gson.fromJson(json, collectionType);
-				Iterator<PostReddit> it = enums.iterator();
 
-				// Going through the comments
-				while (it.hasNext()) {
-					PostReddit pr = it.next();
-					PostListing tempListing = pr.getData();
-					for (PostChild child : tempListing.getChildren()) {
-						PostData tempData = child.getData();
-						// As you can see here we can get info specific to the comment from the
-						// [PostData object].
-						System.out.println(tempData.getAuthor());
+				if (enums != null) {
+					Iterator<PostReddit> it = enums.iterator();
+					// Going through the comments
+					while (it.hasNext()) {
+						PostReddit pr = it.next();
+						PostListing tempListing = pr.getData();
+						for (PostChild child : tempListing.getChildren()) {
+							PostData tempData = child.getData();
+							// As you can see here we can get info specific to the comment from the
+							// [PostData object].
+							//System.out.println(tempData.getAuthor());
+						}
 					}
 				}
-
 			}
 
 		}
@@ -90,7 +91,8 @@ public class CreateReddit extends TimerTask {
 	private static String getJson(String url) {
 		Document doc;
 		try {
-			Connection con = Jsoup.connect(url).userAgent("Mozilla").ignoreContentType(true).timeout(30000);
+			Connection con = Jsoup.connect(url).userAgent("Chrome").ignoreHttpErrors(true).ignoreContentType(true)
+					.timeout(30000);
 			Connection.Response resp = con.execute();
 			if (resp.statusCode() == 200) {
 				doc = con.get();
