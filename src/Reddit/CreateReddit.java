@@ -50,11 +50,11 @@ public class CreateReddit extends TimerTask {
 
 		if (allData != null && allData.size() > 0) {
 			for (Data d : allData) {
-				if (!db.existsInDB(d)) {
-					db.add(d);
+				if (!db.postExistsInDB(d)) {
+					 db.addPost(d);
 					System.out.println("Added post: " + d.getTitle());
 				} else {
-					db.update(d);
+					 db.updatePost(d);
 				}
 
 				// Getting comments JSON
@@ -73,7 +73,12 @@ public class CreateReddit extends TimerTask {
 							PostData tempData = child.getData();
 							// As you can see here we can get info specific to the comment from the
 							// [PostData object].
-							//System.out.println(tempData.getAuthor());
+							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
+							if (!db.commentExistsInDB(tempData)) {
+								 db.addComment(tempData);
+							} else {
+								 db.updateComment(tempData);
+							}
 						}
 					}
 				}

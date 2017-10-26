@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import Reddit.Data;
+import Reddit.PostData;
 
 public class Database {
 	@SuppressWarnings("unused")
@@ -45,7 +46,7 @@ public class Database {
 		}
 	}
 
-	public boolean existsInDB(Data d) {
+	public boolean postExistsInDB(Data d) {
 		String query = "SELECT COUNT(*) FROM cmv.posts WHERE id='" + d.getId() + "';";
 		try {
 			Statement st = conn.createStatement();
@@ -61,8 +62,25 @@ public class Database {
 			return true;
 		}
 	}
+	
+	public boolean commentExistsInDB(PostData tempData) {
+		String query = "SELECT COUNT(*) FROM cmv.comments WHERE id='" + tempData.getId() + "';";
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			if (rs.getInt(1) == 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
 
-	public void add(Data d) {
+	public void addPost(Data d) {
 		String command = "INSERT INTO cmv.posts(";
 		String params = "id,domain,approved_at_utc,banned_by,subreddit,selftext_html,selftext,likes,suggested_sort,secure_media,is_reddit_media_domain,saved,banned_at_utc,view_count,archived,clicked,report_reasons,title,num_crossposts,link_flair_text,can_mod_post,is_crosspostable,pinned,score,approved_by,over_18,hidden,thumbnail,subreddit_id,edited,link_flair_css_class,author_flair_css_class,contest_mode,gilded,downs,brand_safe,removal_reason,author_flair_text,stickied,can_gild,is_self,parent_whitelist_status,name,permalink,subreddit_type,locked,hide_score,created,url,whitelist_status,quarantine,author,created_utc,subreddit_name_prefixed,ups,media,num_comments,visited,num_reports,is_video,distinguished";
 		String separator1 = ") values(";
@@ -95,7 +113,7 @@ public class Database {
 		}
 	}
 
-	public void update(Data d) {
+	public void updatePost(Data d) {
 		String updateQuery = "UPDATE cmv.posts SET domain = ? , " + "approved_at_utc = ? , " + "banned_by = ? , "
 				+ "subreddit = ? , " + "selftext_html = ? , " + "selftext = ? , " + "likes = ? , "
 				+ "suggested_sort = ? , " + "secure_media = ? , " + "is_reddit_media_domain = ? , " + "saved = ? , "
@@ -209,5 +227,15 @@ public class Database {
 			System.exit(0);
 		}
 		return out;
+	}
+
+	public void addComment(PostData tempData) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateComment(PostData tempData) {
+		// TODO Auto-generated method stub
+		
 	}
 }
