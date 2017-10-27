@@ -76,8 +76,8 @@ public class CreateReddit extends TimerTask {
 							// As you can see here we can get info specific to the comment from the
 							// [PostData object].
 							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
-							if (!db.commentExistsInDB(tempData)) {
-//								 db.addComment(tempData);
+							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
+								 db.addComment(tempData);
 							} else {
 //								 db.updateComment(tempData);
 							}
