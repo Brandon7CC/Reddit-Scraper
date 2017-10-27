@@ -33,7 +33,9 @@ public class CreateReddit extends TimerTask {
 	private Database db = null;
 	private Gson gson = new Gson();
 	// Add the REST API link for the sub-reddit here
-	private String url = "https://www.reddit.com/r/changemyview/.json";
+	private String baseURL = "https://www.reddit.com/r/";
+	private String subreddit = "changemyview";
+	private String jsonURL = baseURL + subreddit + "/.json";
 
 	public CreateReddit(Database myDB) {
 		db = myDB;
@@ -41,7 +43,7 @@ public class CreateReddit extends TimerTask {
 
 	@Override
 	public void run() {
-		String json = getJson(this.url);
+		String json = getJson(this.jsonURL);
 		this.reddit = gson.fromJson(json, Reddit.class);
 		ArrayList<Data> allData = new ArrayList<Data>();
 		for (Child c : reddit.getData().getChildren()) {
@@ -75,9 +77,9 @@ public class CreateReddit extends TimerTask {
 							// [PostData object].
 							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
 							if (!db.commentExistsInDB(tempData)) {
-								 db.addComment(tempData);
+//								 db.addComment(tempData);
 							} else {
-								 db.updateComment(tempData);
+//								 db.updateComment(tempData);
 							}
 						}
 					}
