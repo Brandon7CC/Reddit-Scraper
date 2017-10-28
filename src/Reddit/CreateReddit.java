@@ -78,6 +78,11 @@ public class CreateReddit extends TimerTask {
 							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
 							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
 								 db.addComment(tempData);
+								 if(tempData.getAuthor().equals("DeltaBot")) {
+									 System.out.println("\n"+"Deltabot text: ");
+									 System.out.println(tempData.getBody()+"\n");
+								 }
+								 System.out.println("Added comment by: " + tempData.getAuthor());
 							} else {
 //								 db.updateComment(tempData);
 							}
