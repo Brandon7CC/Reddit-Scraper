@@ -228,6 +228,21 @@ public class Database {
 		}
 		return out;
 	}
+	
+	public String countComments() {
+		String out = "";
+		try (Statement statement = conn.createStatement()) {
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM comments;");
+			while (resultSet.next()) {
+				out = resultSet.getString(1);
+			}
+			return out.trim();
+		} catch (SQLException e) {
+			System.out.println("Comments count could not be updated.");
+			System.exit(0);
+		}
+		return out;
+	}
 
 	public void addComment(PostData tempData) {
 		if (tempData.getBody() != null) {

@@ -55,10 +55,10 @@ public class CreateReddit extends TimerTask {
 		if (allData != null && allData.size() > 0) {
 			for (Data d : allData) {
 				if (!db.postExistsInDB(d)) {
-					 db.addPost(d);
+					db.addPost(d);
 					System.out.println("Added post: " + d.getTitle());
 				} else {
-					 db.updatePost(d);
+					db.updatePost(d);
 				}
 
 				// Getting comments JSON
@@ -75,27 +75,46 @@ public class CreateReddit extends TimerTask {
 						PostListing tempListing = pr.getData();
 						for (PostChild child : tempListing.getChildren()) {
 							PostData tempData = child.getData();
-							// As you can see here we can get info specific to the comment from the
-							// [PostData object].
-							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
+							
+							
+							
+							
 							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
-								 db.addComment(tempData);
-								 if(tempData != null && tempData.getAuthor() != null && tempData.getAuthor().equals("DeltaBot")) {
-									 
-									 if(tempData.getBody().contains("Confirmed: 1 delta")) {
-										 try {
-											 PrintWriter pw = new PrintWriter(new File("delta.txt"));
-											 pw.println(tempData.getBody());
-											 pw.close();
-										 } catch(IOException e) { }
-										 System.out.println("\n"+"Deltabot text: ");
-										 System.out.println(tempData.getBody()+"\n\n");
-									 }
-								 }
-								 System.out.println("Added comment by: " + tempData.getAuthor());
+								if (tempData != null || tempData.getAuthor() != null || !tempData.getAuthor().equals("null")) {
+
+									if (tempData.getBody() != null) {
+										db.addComment(tempData);
+										System.out.println("Added comment by: " + tempData.getAuthor());
+										System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
+										
+										if(tempData.getAuthor_flair_css_class() != null) {
+											if(tempData.getAuthor_flair_css_class().equals(" points")) {
+												System.out.println("Flair Class: Author: " + tempData.getAuthor() + ", Text: " + tempData.getBody());
+											}
+										}
+										
+										if (tempData.getBody().contains("Confirmed")) {
+											System.out.println("\n" + "Deltabot text: ");
+											System.out.println(tempData.getBody() + "\n\n");
+											
+											try {
+												PrintWriter pw = new PrintWriter(new File("delta.txt"));
+												pw.println(tempData.getBody());
+												pw.close();
+											} catch (IOException e) {
+											}
+											
+										}
+									}
+								}
+
 							} else {
-//								 db.updateComment(tempData);
+								// db.updateComment(tempData);
 							}
+							
+							
+							
+							
 						}
 					}
 				}
@@ -104,7 +123,9 @@ public class CreateReddit extends TimerTask {
 		}
 		allData.clear();
 		String totalPosts = db.countPosts();
-		System.out.println("Queried for new top-level posts. Running total: " + totalPosts + " posts.");
+		String totalComments = db.countComments();
+		System.out.println("Queried for new posts. Running total: " + totalPosts + " top level posts.");
+		System.out.println("Comments total: " + totalComments);
 	}
 
 	// String -> String
