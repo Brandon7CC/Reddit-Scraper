@@ -11,7 +11,9 @@ package Reddit;
  * This class will be used to pull new data every 10 seconds.
  */
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -79,8 +81,16 @@ public class CreateReddit extends TimerTask {
 							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
 								 db.addComment(tempData);
 								 if(tempData.getAuthor().equals("DeltaBot")) {
-									 System.out.println("\n"+"Deltabot text: ");
-									 System.out.println(tempData.getBody()+"\n");
+									 
+									 if(tempData.getBody().contains("Confirmed: 1 delta")) {
+										 try {
+											 PrintWriter pw = new PrintWriter(new File("delta.txt"));
+											 pw.println(tempData.getBody());
+											 pw.close();
+										 } catch(IOException e) { }
+										 System.out.println("\n"+"Deltabot text: ");
+										 System.out.println(tempData.getBody()+"\n\n");
+									 }
 								 }
 								 System.out.println("Added comment by: " + tempData.getAuthor());
 							} else {
