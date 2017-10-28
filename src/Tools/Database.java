@@ -230,17 +230,19 @@ public class Database {
 	}
 
 	public void addComment(PostData tempData) {
-		String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name) values(?,?,?,?);";
-		try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
-			st.setString(1, tempData.getId());
-			st.setString(2, tempData.getParent_id());
-			st.setString(3, tempData.getBody());
-			st.setString(4, tempData.getName());
-			st.executeUpdate();
-		} catch (SQLException sqle) {
-			System.out.println("Insert could not be completed for comment ID: " + tempData.getId());
-			System.out.print(sqle.getMessage());
-			System.exit(0);
+		if (tempData.getBody() != null) {
+			String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name) values(?,?,?,?);";
+			try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
+				st.setString(1, tempData.getId());
+				st.setString(2, tempData.getParent_id());
+				st.setString(3, tempData.getBody());
+				st.setString(4, tempData.getName());
+				st.executeUpdate();
+			} catch (SQLException sqle) {
+				System.out.println("Insert could not be completed for comment ID: " + tempData.getId());
+				System.out.print(sqle.getMessage());
+				System.exit(0);
+			}
 		}
 	}
 
