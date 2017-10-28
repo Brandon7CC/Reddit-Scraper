@@ -80,7 +80,7 @@ public class CreateReddit extends TimerTask {
 							// System.out.println(tempData.getAuthor() + " " + d.getTitle());
 							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
 								 db.addComment(tempData);
-								 if(tempData.getAuthor().equals("DeltaBot")) {
+								 if(tempData != null && tempData.getAuthor() != null && tempData.getAuthor().equals("DeltaBot")) {
 									 
 									 if(tempData.getBody().contains("Confirmed: 1 delta")) {
 										 try {
