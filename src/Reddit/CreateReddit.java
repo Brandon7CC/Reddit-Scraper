@@ -11,9 +11,7 @@ package Reddit;
  * This class will be used to pull new data every 10 seconds.
  */
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
