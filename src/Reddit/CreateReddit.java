@@ -116,7 +116,7 @@ public class CreateReddit extends TimerTask {
 	private void findComments(PostListing pl) {
 		for (PostChild child : pl.getChildren()) {
 			PostData tempData = child.getData();
-			if (tempData != null || tempData.getAuthor() != null || !tempData.getAuthor().equals("null")) {
+			if (tempData != null && tempData.getAuthor() != null) {
 				if (tempData.getBody() != null) {
 					if (!db.commentExistsInDB(tempData)
 							&& (!tempData.getName().contains("t3") || tempData.getAuthor().equals("DeltaBot"))) {
