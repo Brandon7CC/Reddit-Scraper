@@ -134,6 +134,7 @@ public class CreateReddit extends TimerTask {
 						if (tempData.getAuthor().equals("DeltaBot")
 								&& tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
 							db.foundDelta(tempData.getParent_id());
+							System.out.println("Δ Δ Δ Δ Δ Δ");
 						}
 					} else {
 						if (tempData.getBody() != null) {

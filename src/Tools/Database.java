@@ -314,7 +314,6 @@ public class Database {
 			System.exit(0);
 		} finally {
 			String updateQuery = "UPDATE cmv.comments SET delta = ? WHERE name = ?;";
-			System.out.println("Δ Δ Δ (" + parent_parent_id + ")");
 			try (PreparedStatement st = conn.prepareStatement(updateQuery)) {
 				st.setBoolean(1, true);
 				st.setString(2, parent_parent_id);
