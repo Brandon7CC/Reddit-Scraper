@@ -56,12 +56,14 @@ public class CreateReddit extends TimerTask {
 			for (Data d : allData) {
 				if (!db.postExistsInDB(d)) {
 					db.addPost(d);
-					System.out.println("Added post: " + d.getTitle());
+					System.out.println("Added post: " + d.getTitle().substring(0, 20) + "...");
 				} else {
-					// db.updatePost(d);
+					db.updatePost(d);
 				}
 			}
 		}
+		allData.clear();
+		System.out.println("Query for new posts complete; querying for new comments...");
 		for (String postURL : db.getPosts()) {
 			// Getting comments JSON
 			json = getJson(postURL + ".json");
@@ -85,7 +87,7 @@ public class CreateReddit extends TimerTask {
 								if (tempData.getBody() != null) {
 									db.addComment(tempData);
 									System.out.println("Added comment by: " + tempData.getAuthor());
-									System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
+									// System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
 
 									if (tempData.getAuthor_flair_css_class() != null) {
 										if (tempData.getAuthor_flair_css_class().equals(" points")) {
@@ -129,11 +131,10 @@ public class CreateReddit extends TimerTask {
 				}
 			}
 		}
-		allData.clear();
 		String totalPosts = db.countPosts();
 		String totalComments = db.countComments();
-		System.out.println("Queried for new posts. Running total: " + totalPosts + " top level posts.");
-		System.out.println("Comments total: " + totalComments);
+		System.out.println("Querying for comments complete.");
+		System.out.println("Posts: " + totalPosts + ", Comments: " + totalComments + ".");
 	}
 
 	// String -> String
