@@ -58,80 +58,76 @@ public class CreateReddit extends TimerTask {
 					db.addPost(d);
 					System.out.println("Added post: " + d.getTitle());
 				} else {
-//					db.updatePost(d);
-					for (String s : db.getPosts()) {
-						System.out.println(s);
-					}
-					System.exit(0);
+					// db.updatePost(d);
 				}
+			}
+		}
+		for (String postURL : db.getPosts()) {
+			// Getting comments JSON
+			json = getJson(postURL + ".json");
+			Type collectionType = new TypeToken<Collection<PostReddit>>() {
+			}.getType();
+			Collection<PostReddit> enums = gson.fromJson(json, collectionType);
 
-				// Getting comments JSON
-				json = getJson(d.getUrl() + ".json");
-				Type collectionType = new TypeToken<Collection<PostReddit>>() {
-				}.getType();
-				Collection<PostReddit> enums = gson.fromJson(json, collectionType);
+			if (enums != null) {
+				Iterator<PostReddit> it = enums.iterator();
+				// Going through the comments
+				while (it.hasNext()) {
+					PostReddit pr = it.next();
+					PostListing tempListing = pr.getData();
+					for (PostChild child : tempListing.getChildren()) {
+						PostData tempData = child.getData();
 
-				if (enums != null) {
-					Iterator<PostReddit> it = enums.iterator();
-					// Going through the comments
-					while (it.hasNext()) {
-						PostReddit pr = it.next();
-						PostListing tempListing = pr.getData();
-						for (PostChild child : tempListing.getChildren()) {
-							PostData tempData = child.getData();
+						if (!db.commentExistsInDB(tempData)
+								&& (!tempData.getName().contains("t3") || tempData.getAuthor().equals("DeltaBot"))) {
+							if (tempData != null || tempData.getAuthor() != null
+									|| !tempData.getAuthor().equals("null")) {
+								if (tempData.getBody() != null) {
+									db.addComment(tempData);
+									System.out.println("Added comment by: " + tempData.getAuthor());
+									System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
 
-							if (!db.commentExistsInDB(tempData) && (!tempData.getName().contains("t3")
-									|| tempData.getAuthor().equals("DeltaBot"))) {
-								if (tempData != null || tempData.getAuthor() != null
-										|| !tempData.getAuthor().equals("null")) {
-									if (tempData.getBody() != null) {
-										db.addComment(tempData);
-										System.out.println("Added comment by: " + tempData.getAuthor());
-										System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
-
-										if (tempData.getAuthor_flair_css_class() != null) {
-											if (tempData.getAuthor_flair_css_class().equals(" points")) {
-												System.out.println("Flair Class: Author: " + tempData.getAuthor()
-														+ ", Text: " + tempData.getBody());
-											}
-										}
-
-										if (tempData.getBody().contains("Confirmed")) {
-											System.out.println("\n" + "Deltabot text: ");
-											System.out.println(tempData.getBody() + "\n\n");
-
-											try {
-												PrintWriter pw = new PrintWriter(new File("delta.txt"));
-												pw.println(tempData.getBody());
-												pw.close();
-											} catch (IOException e) {
-											}
-
+									if (tempData.getAuthor_flair_css_class() != null) {
+										if (tempData.getAuthor_flair_css_class().equals(" points")) {
+											System.out.println("Flair Class: Author: " + tempData.getAuthor()
+													+ ", Text: " + tempData.getBody());
 										}
 									}
-								}
 
-							} else {
-//								if (tempData.getBody() != null) {
-//									db.updateComment(tempData);
-//									if (tempData.getAuthor_flair_css_class() != null) {
-//										if (tempData.getAuthor_flair_css_class().equals(" points")) {
-//											// System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
-//											// Text: " + tempData.getBody());
-//										}
-//									}
-//
-//									if (tempData.getAuthor().equals("DeltaBot")
-//											&& tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
-//										db.foundDelta(tempData.getParent_id());
-//									}
-//								}
+									if (tempData.getBody().contains("Confirmed")) {
+										System.out.println("\n" + "Deltabot text: ");
+										System.out.println(tempData.getBody() + "\n\n");
+
+										try {
+											PrintWriter pw = new PrintWriter(new File("delta.txt"));
+											pw.println(tempData.getBody());
+											pw.close();
+										} catch (IOException e) {
+										}
+
+									}
+								}
 							}
+
+						} else {
+							// if (tempData.getBody() != null) {
+							// db.updateComment(tempData);
+							// if (tempData.getAuthor_flair_css_class() != null) {
+							// if (tempData.getAuthor_flair_css_class().equals(" points")) {
+							// // System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
+							// // Text: " + tempData.getBody());
+							// }
+							// }
+							//
+							// if (tempData.getAuthor().equals("DeltaBot")
+							// && tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
+							// db.foundDelta(tempData.getParent_id());
+							// }
+							// }
 						}
 					}
 				}
 			}
-
 		}
 		allData.clear();
 		String totalPosts = db.countPosts();
