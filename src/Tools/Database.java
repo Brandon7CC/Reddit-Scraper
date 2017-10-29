@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Reddit.Data;
 import Reddit.PostData;
@@ -61,6 +62,22 @@ public class Database {
 			e.printStackTrace();
 			return true;
 		}
+	}
+
+	public ArrayList<String> getPosts() {
+		String query = "SELECT url from cmv.posts;";
+		ArrayList<String> URLs = new ArrayList<String>();
+		try (PreparedStatement st = conn.prepareStatement(query)) {
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				URLs.add(rs.getString(1));
+			}
+			st.close();
+		} catch (SQLException sqle) {
+			System.out.println("Update could not be completed for post ID.");
+			System.exit(0);
+		}
+		return URLs;
 	}
 
 	public boolean commentExistsInDB(PostData tempData) {
@@ -228,7 +245,7 @@ public class Database {
 		}
 		return out;
 	}
-	
+
 	public String countComments() {
 		String out = "";
 		try (Statement statement = conn.createStatement()) {
@@ -246,13 +263,14 @@ public class Database {
 
 	public void addComment(PostData tempData) {
 		if (tempData.getBody() != null) {
-			String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name,delta) values(?,?,?,?,?);";
+			String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name,delta,author) values(?,?,?,?,?,?);";
 			try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
 				st.setString(1, tempData.getId());
 				st.setString(2, tempData.getParent_id());
 				st.setString(3, tempData.getBody());
 				st.setString(4, tempData.getName());
 				st.setBoolean(5, tempData.getDelta());
+				st.setString(6, tempData.getAuthor());
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Insert could not be completed for comment ID: " + tempData.getId());
@@ -264,19 +282,34 @@ public class Database {
 
 	public void updateComment(PostData tempData) {
 		if (tempData.getBody() != null) {
-			String insertQuery = "UPDATE cmv.comments SET id = ? , parent_id = ?, body = ?, delta = ? WHERE name = ?;";
+			String insertQuery = "UPDATE cmv.comments SET id = ? , parent_id = ?, body = ?, delta = ?, author = ? WHERE name = ?;";
 			try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
 				st.setString(1, tempData.getId());
 				st.setString(2, tempData.getParent_id());
 				st.setString(3, tempData.getBody());
 				st.setBoolean(4, tempData.getDelta());
-				st.setString(5, tempData.getName());
+				st.setString(5, tempData.getAuthor());
+				st.setString(6, tempData.getName());
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Update could not be completed for comment ID: " + tempData.getId());
 				System.out.print(sqle.getMessage());
 				System.exit(0);
 			}
+		}
+	}
+
+	public void foundDelta(String parent_id) {
+		String updateQuery = "UPDATE cmv.comments SET delta = ? WHERE name = ?;";
+		System.out.println("¡DELTA! (" + parent_id + ")");
+		try (PreparedStatement st = conn.prepareStatement(updateQuery)) {
+			st.setBoolean(1, true);
+			st.setString(2, parent_id);
+			st.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println("Delta update could not be completed for comment ID: " + parent_id);
+			System.out.print(sqle.getMessage());
+			System.exit(0);
 		}
 	}
 }

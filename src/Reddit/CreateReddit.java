@@ -58,7 +58,11 @@ public class CreateReddit extends TimerTask {
 					db.addPost(d);
 					System.out.println("Added post: " + d.getTitle());
 				} else {
-					db.updatePost(d);
+//					db.updatePost(d);
+					for (String s : db.getPosts()) {
+						System.out.println(s);
+					}
+					System.exit(0);
 				}
 
 				// Getting comments JSON
@@ -108,36 +112,21 @@ public class CreateReddit extends TimerTask {
 								}
 
 							} else {
-								if (tempData != null || tempData.getAuthor() != null
-										|| !tempData.getAuthor().equals("null")) {
-									if (tempData.getBody() != null) {
-										db.updateComment(tempData);
-										System.out.println("Updated comment by: " + tempData.getAuthor());
-										System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
-
-										if (tempData.getAuthor_flair_css_class() != null) {
-											if (tempData.getAuthor_flair_css_class().equals(" points")) {
-												System.out.println("Flair Class: Author: " + tempData.getAuthor()
-														+ ", Text: " + tempData.getBody());
-											}
-										}
-
-										if (tempData.getBody().contains("Confirmed")) {
-											System.out.println("\n" + "Deltabot text: ");
-											System.out.println(tempData.getBody() + "\n\n");
-
-											try {
-												PrintWriter pw = new PrintWriter(new File("delta.txt"));
-												pw.println(tempData.getBody());
-												pw.close();
-											} catch (IOException e) {
-											}
-
-										}
-									}
-								}
+//								if (tempData.getBody() != null) {
+//									db.updateComment(tempData);
+//									if (tempData.getAuthor_flair_css_class() != null) {
+//										if (tempData.getAuthor_flair_css_class().equals(" points")) {
+//											// System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
+//											// Text: " + tempData.getBody());
+//										}
+//									}
+//
+//									if (tempData.getAuthor().equals("DeltaBot")
+//											&& tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
+//										db.foundDelta(tempData.getParent_id());
+//									}
+//								}
 							}
-
 						}
 					}
 				}
