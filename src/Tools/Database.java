@@ -300,16 +300,30 @@ public class Database {
 	}
 
 	public void foundDelta(String parent_id) {
-		String updateQuery = "UPDATE cmv.comments SET delta = ? WHERE name = ?;";
-		System.out.println("¡DELTA! (" + parent_id + ")");
-		try (PreparedStatement st = conn.prepareStatement(updateQuery)) {
-			st.setBoolean(1, true);
-			st.setString(2, parent_id);
-			st.executeUpdate();
+		String query = "SELECT parent_id from cmv.comments WHERE name = ?;";
+		String parent_parent_id = "";
+		try (PreparedStatement st = conn.prepareStatement(query)) {
+			st.setString(1, parent_id);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				parent_parent_id = rs.getString(1);
+			}
+			st.close();
 		} catch (SQLException sqle) {
-			System.out.println("Delta update could not be completed for comment ID: " + parent_id);
-			System.out.print(sqle.getMessage());
+			System.out.println("Update could not be completed for post ID.");
 			System.exit(0);
+		} finally {
+			String updateQuery = "UPDATE cmv.comments SET delta = ? WHERE name = ?;";
+			System.out.println("Δ Δ Δ (" + parent_parent_id + ")");
+			try (PreparedStatement st = conn.prepareStatement(updateQuery)) {
+				st.setBoolean(1, true);
+				st.setString(2, parent_parent_id);
+				st.executeUpdate();
+			} catch (SQLException sqle) {
+				System.out.println("Delta update could not be completed for comment ID: " + parent_id);
+				System.out.print(sqle.getMessage());
+				System.exit(0);
+			}
 		}
 	}
 }

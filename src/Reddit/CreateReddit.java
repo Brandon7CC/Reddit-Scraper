@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.TimerTask;
 
@@ -56,7 +57,7 @@ public class CreateReddit extends TimerTask {
 			for (Data d : allData) {
 				if (!db.postExistsInDB(d)) {
 					db.addPost(d);
-					System.out.println("Added post: " + d.getTitle().substring(0, 20) + "...");
+					System.out.println("Added post: " + d.getTitle().substring(0, 30) + "...");
 				} else {
 					db.updatePost(d);
 				}
@@ -64,9 +65,12 @@ public class CreateReddit extends TimerTask {
 		}
 		allData.clear();
 		System.out.println("Query for new posts complete; querying for new comments...");
-		for (String postURL : db.getPosts()) {
+		ArrayList<String> postURLs = db.getPosts();
+		Collections.shuffle(postURLs);
+		for (String postURL : postURLs) {
 			// Getting comments JSON
 			json = getJson(postURL + ".json");
+			json = json.replaceAll("\"replies\": \"\",", "");
 			Type collectionType = new TypeToken<Collection<PostReddit>>() {
 			}.getType();
 			Collection<PostReddit> enums = gson.fromJson(json, collectionType);
@@ -77,57 +81,7 @@ public class CreateReddit extends TimerTask {
 				while (it.hasNext()) {
 					PostReddit pr = it.next();
 					PostListing tempListing = pr.getData();
-					for (PostChild child : tempListing.getChildren()) {
-						PostData tempData = child.getData();
-
-						if (!db.commentExistsInDB(tempData)
-								&& (!tempData.getName().contains("t3") || tempData.getAuthor().equals("DeltaBot"))) {
-							if (tempData != null || tempData.getAuthor() != null
-									|| !tempData.getAuthor().equals("null")) {
-								if (tempData.getBody() != null) {
-									db.addComment(tempData);
-									System.out.println("Added comment by: " + tempData.getAuthor());
-									// System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
-
-									if (tempData.getAuthor_flair_css_class() != null) {
-										if (tempData.getAuthor_flair_css_class().equals(" points")) {
-											System.out.println("Flair Class: Author: " + tempData.getAuthor()
-													+ ", Text: " + tempData.getBody());
-										}
-									}
-
-									if (tempData.getBody().contains("Confirmed")) {
-										System.out.println("\n" + "Deltabot text: ");
-										System.out.println(tempData.getBody() + "\n\n");
-
-										try {
-											PrintWriter pw = new PrintWriter(new File("delta.txt"));
-											pw.println(tempData.getBody());
-											pw.close();
-										} catch (IOException e) {
-										}
-
-									}
-								}
-							}
-
-						} else {
-							// if (tempData.getBody() != null) {
-							// db.updateComment(tempData);
-							// if (tempData.getAuthor_flair_css_class() != null) {
-							// if (tempData.getAuthor_flair_css_class().equals(" points")) {
-							// // System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
-							// // Text: " + tempData.getBody());
-							// }
-							// }
-							//
-							// if (tempData.getAuthor().equals("DeltaBot")
-							// && tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
-							// db.foundDelta(tempData.getParent_id());
-							// }
-							// }
-						}
-					}
+					findComments(tempListing);
 				}
 			}
 		}
@@ -157,5 +111,55 @@ public class CreateReddit extends TimerTask {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private void findComments(PostListing pl) {
+		for (PostChild child : pl.getChildren()) {
+			PostData tempData = child.getData();
+			if (tempData != null || tempData.getAuthor() != null || !tempData.getAuthor().equals("null")) {
+				if (tempData.getBody() != null) {
+					if (!db.commentExistsInDB(tempData)
+							&& (!tempData.getName().contains("t3") || tempData.getAuthor().equals("DeltaBot"))) {
+						db.addComment(tempData);
+						System.out.println("Added comment by: " + tempData.getAuthor());
+						// System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
+
+						if (tempData.getAuthor_flair_css_class() != null) {
+							if (tempData.getAuthor_flair_css_class().equals("points")) {
+								// System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
+								// Text: " + tempData.getBody());
+							}
+						}
+
+						if (tempData.getAuthor().equals("DeltaBot")
+								&& tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
+							db.foundDelta(tempData.getParent_id());
+						}
+					} else {
+						if (tempData.getBody() != null) {
+							db.updateComment(tempData);
+							if (tempData.getAuthor_flair_css_class() != null) {
+								if (tempData.getAuthor_flair_css_class().equals("points")) {
+									// System.out.println("Flair Class: Author: " + tempData.getAuthor() + ",
+									// Text: " + tempData.getBody());
+								}
+							}
+
+							if (tempData.getAuthor().equals("DeltaBot")
+									&& tempData.getBody().contains("Confirmed: 1 delta awarded to")) {
+								db.foundDelta(tempData.getParent_id());
+							}
+						}
+					}
+					if (tempData.getReply() != null) {
+						if (tempData.getReply().getData() != null) {
+							findComments(tempData.getReply().getData());
+						}
+					}
+				}
+
+			}
+		}
+		return;
 	}
 }

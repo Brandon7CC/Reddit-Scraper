@@ -19,7 +19,11 @@ public class PostData {
 	// private ArrayList<ModReports> mod_reports;
 	private ArrayList<String> children;
 	
-	//private Reply replies;
+	private Reply replies;
+	
+	public Reply getReply() {
+		return replies;
+	}
 
 	public String getSubreddit_id() {
 		return subreddit_id;

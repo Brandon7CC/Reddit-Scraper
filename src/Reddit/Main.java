@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
 		Database db = new Database("java","miturtc");
-		timer.schedule(new CreateReddit(db), 0, 60000);
+		timer.schedule(new CreateReddit(db), 0, 240000);
 	}
 
 }
