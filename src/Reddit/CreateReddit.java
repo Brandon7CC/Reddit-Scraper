@@ -75,46 +75,69 @@ public class CreateReddit extends TimerTask {
 						PostListing tempListing = pr.getData();
 						for (PostChild child : tempListing.getChildren()) {
 							PostData tempData = child.getData();
-							
-							
-							
-							
-							if (!db.commentExistsInDB(tempData) && !tempData.getName().contains("t3")) {
-								if (tempData != null || tempData.getAuthor() != null || !tempData.getAuthor().equals("null")) {
 
+							if (!db.commentExistsInDB(tempData) && (!tempData.getName().contains("t3")
+									|| tempData.getAuthor().equals("DeltaBot"))) {
+								if (tempData != null || tempData.getAuthor() != null
+										|| !tempData.getAuthor().equals("null")) {
 									if (tempData.getBody() != null) {
 										db.addComment(tempData);
 										System.out.println("Added comment by: " + tempData.getAuthor());
 										System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
-										
-										if(tempData.getAuthor_flair_css_class() != null) {
-											if(tempData.getAuthor_flair_css_class().equals(" points")) {
-												System.out.println("Flair Class: Author: " + tempData.getAuthor() + ", Text: " + tempData.getBody());
+
+										if (tempData.getAuthor_flair_css_class() != null) {
+											if (tempData.getAuthor_flair_css_class().equals(" points")) {
+												System.out.println("Flair Class: Author: " + tempData.getAuthor()
+														+ ", Text: " + tempData.getBody());
 											}
 										}
-										
+
 										if (tempData.getBody().contains("Confirmed")) {
 											System.out.println("\n" + "Deltabot text: ");
 											System.out.println(tempData.getBody() + "\n\n");
-											
+
 											try {
 												PrintWriter pw = new PrintWriter(new File("delta.txt"));
 												pw.println(tempData.getBody());
 												pw.close();
 											} catch (IOException e) {
 											}
-											
+
 										}
 									}
 								}
 
 							} else {
-								// db.updateComment(tempData);
+								if (tempData != null || tempData.getAuthor() != null
+										|| !tempData.getAuthor().equals("null")) {
+									if (tempData.getBody() != null) {
+										db.updateComment(tempData);
+										System.out.println("Updated comment by: " + tempData.getAuthor());
+										System.out.println("CLASS: " + tempData.getAuthor_flair_css_class());
+
+										if (tempData.getAuthor_flair_css_class() != null) {
+											if (tempData.getAuthor_flair_css_class().equals(" points")) {
+												System.out.println("Flair Class: Author: " + tempData.getAuthor()
+														+ ", Text: " + tempData.getBody());
+											}
+										}
+
+										if (tempData.getBody().contains("Confirmed")) {
+											System.out.println("\n" + "Deltabot text: ");
+											System.out.println(tempData.getBody() + "\n\n");
+
+											try {
+												PrintWriter pw = new PrintWriter(new File("delta.txt"));
+												pw.println(tempData.getBody());
+												pw.close();
+											} catch (IOException e) {
+											}
+
+										}
+									}
+								}
 							}
-							
-							
-							
-							
+
 						}
 					}
 				}

@@ -9,6 +9,8 @@ public class PostData {
 			distinguished, edited;
 
 	private boolean saved, archived, can_mod_post, collapsed, is_submitter, stickied, can_gild, score_hidden;
+	
+	private boolean delta = false;
 
 	private int gilded, ups, score, downs, created, created_utc, controversiality, depth, count;
 
@@ -21,6 +23,10 @@ public class PostData {
 
 	public String getSubreddit_id() {
 		return subreddit_id;
+	}
+	
+	public boolean getDelta() {
+		return delta;
 	}
 
 	public String getApproved_at_utc() {

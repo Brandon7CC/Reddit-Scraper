@@ -217,7 +217,7 @@ public class Database {
 	public String countPosts() {
 		String out = "";
 		try (Statement statement = conn.createStatement()) {
-			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM posts;");
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM cmv.posts;");
 			while (resultSet.next()) {
 				out = resultSet.getString(1);
 			}
@@ -232,7 +232,7 @@ public class Database {
 	public String countComments() {
 		String out = "";
 		try (Statement statement = conn.createStatement()) {
-			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM comments;");
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM cmv.comments;");
 			while (resultSet.next()) {
 				out = resultSet.getString(1);
 			}
@@ -246,12 +246,13 @@ public class Database {
 
 	public void addComment(PostData tempData) {
 		if (tempData.getBody() != null) {
-			String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name) values(?,?,?,?);";
+			String insertQuery = "INSERT INTO cmv.comments(id,parent_id,body,name,delta) values(?,?,?,?,?);";
 			try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
 				st.setString(1, tempData.getId());
 				st.setString(2, tempData.getParent_id());
 				st.setString(3, tempData.getBody());
 				st.setString(4, tempData.getName());
+				st.setBoolean(5, tempData.getDelta());
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Insert could not be completed for comment ID: " + tempData.getId());
@@ -262,7 +263,20 @@ public class Database {
 	}
 
 	public void updateComment(PostData tempData) {
-		// TODO Auto-generated method stub
-
+		if (tempData.getBody() != null) {
+			String insertQuery = "UPDATE cmv.comments SET id = ? , parent_id = ?, body = ?, delta = ? WHERE name = ?;";
+			try (PreparedStatement st = conn.prepareStatement(insertQuery)) {
+				st.setString(1, tempData.getId());
+				st.setString(2, tempData.getParent_id());
+				st.setString(3, tempData.getBody());
+				st.setBoolean(4, tempData.getDelta());
+				st.setString(5, tempData.getName());
+				st.executeUpdate();
+			} catch (SQLException sqle) {
+				System.out.println("Update could not be completed for comment ID: " + tempData.getId());
+				System.out.print(sqle.getMessage());
+				System.exit(0);
+			}
+		}
 	}
 }
