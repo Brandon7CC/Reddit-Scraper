@@ -44,6 +44,9 @@ public class CreateReddit extends TimerTask {
 
 	@Override
 	public void run() {
+		System.out.println("comments: " + db.countComments());
+		System.out.println("top level: " + db.countPosts());
+		
 		String json = getJson(this.jsonURL);
 		this.reddit = gson.fromJson(json, Reddit.class);
 		ArrayList<Data> allData = new ArrayList<Data>();
@@ -68,6 +71,11 @@ public class CreateReddit extends TimerTask {
 		for (String postURL : postURLs) {
 			// Getting comments JSON
 			json = getJson(postURL + ".json");
+			//Hopefully this can fix our crashing issue
+			if(json == null) {
+				System.out.println("Skipping due to null – website not responding");
+				continue;
+			}
 			json = json.replaceAll("\"replies\": \"\",", "");
 			Type collectionType = new TypeToken<Collection<PostReddit>>() {
 			}.getType();

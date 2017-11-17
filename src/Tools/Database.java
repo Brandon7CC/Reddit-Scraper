@@ -75,6 +75,7 @@ public class Database {
 			st.close();
 		} catch (SQLException sqle) {
 			System.out.println("Update could not be completed for post ID.");
+			sqle.printStackTrace();
 			System.exit(0);
 		}
 		return URLs;
@@ -222,9 +223,8 @@ public class Database {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmv?user=java&password=miturtc");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmv?user=java&password=miturtc&useSSL=false");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -241,6 +241,7 @@ public class Database {
 			return out.trim();
 		} catch (SQLException e) {
 			System.out.println("Post count could not be updated.");
+			e.printStackTrace();
 			System.exit(0);
 		}
 		return out;
@@ -256,6 +257,7 @@ public class Database {
 			return out.trim();
 		} catch (SQLException e) {
 			System.out.println("Comments count could not be updated.");
+			e.printStackTrace();
 			System.exit(0);
 		}
 		return out;
@@ -274,7 +276,7 @@ public class Database {
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Insert could not be completed for comment ID: " + tempData.getId());
-				System.out.print(sqle.getMessage());
+				sqle.printStackTrace();
 				System.exit(0);
 			}
 		}
@@ -293,7 +295,7 @@ public class Database {
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Update could not be completed for comment ID: " + tempData.getId());
-				System.out.print(sqle.getMessage());
+				sqle.printStackTrace();
 				System.exit(0);
 			}
 		}
@@ -320,7 +322,7 @@ public class Database {
 				st.executeUpdate();
 			} catch (SQLException sqle) {
 				System.out.println("Delta update could not be completed for comment ID: " + parent_id);
-				System.out.print(sqle.getMessage());
+				sqle.printStackTrace();
 				System.exit(0);
 			}
 		}
