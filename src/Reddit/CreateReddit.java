@@ -58,7 +58,7 @@ public class CreateReddit extends TimerTask {
 			for (Data d : allData) {
 				if (!db.postExistsInDB(d)) {
 					db.addPost(d);
-					System.out.println("Added post: " + d.getTitle().substring(0, 30) + "...");
+					System.out.println("Added post: " + d.getTitle());
 				} else {
 					db.updatePost(d);
 				}
